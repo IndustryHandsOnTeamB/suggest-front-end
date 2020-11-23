@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="사용자">
+        <item>중학생</item>
+        <item>고등학생</item>
+        <item>대학생</item>
+    </string-array>
+</resources>
