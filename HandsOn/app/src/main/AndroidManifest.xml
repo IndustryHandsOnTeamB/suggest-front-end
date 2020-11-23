@@ -19,6 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity" />
+        <activity android:name=".SurveyResultActivity"/>
+        <activity android:name=".RecommendListActivity"/>
+        <activity android:name=".SurveyActivity"/>
     </application>
 
 </manifest>
