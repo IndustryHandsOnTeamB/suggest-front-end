@@ -11,7 +11,7 @@ public class MenuSelect extends AppCompatActivity {
 
 
     Button lastResultButton;
-    Button counselCasesButton;
+    Button mbtiButton;
     Button testStartButton;
 
     @Override
@@ -20,7 +20,7 @@ public class MenuSelect extends AppCompatActivity {
         setContentView(R.layout.activity_menu_select);
 
         lastResultButton = (Button)findViewById(R.id.last_result_button);
-        counselCasesButton = (Button)findViewById(R.id.counsel_cases_button);
+        mbtiButton = (Button)findViewById(R.id.mbti_button);
         testStartButton = (Button) findViewById(R.id.test_start_button);
 
         lastResultButton.setOnClickListener(new View.OnClickListener() {
@@ -31,10 +31,10 @@ public class MenuSelect extends AppCompatActivity {
             }
         });
 
-        counselCasesButton.setOnClickListener(new View.OnClickListener() {
+        mbtiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CaseSearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MbtiActivity.class);
                 startActivity(intent);
             }
         });

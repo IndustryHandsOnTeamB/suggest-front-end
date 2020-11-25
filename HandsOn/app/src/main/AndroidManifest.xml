@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".StartNewSurveyActivity"></activity>
         <activity android:name=".PastResultActivity" />
-        <activity android:name=".CaseSearchActivity" />
+        <activity android:name=".MbtiActivity" />
         <activity android:name=".MenuSelect" />
         <activity android:name=".LogInActivity">
             <intent-filter>
