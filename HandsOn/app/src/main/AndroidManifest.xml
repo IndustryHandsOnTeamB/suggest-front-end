@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SurveyJobValueActivity"/>
+        <activity android:name=".SurveyJobAptitudeActivity"/>
         <activity android:name=".StartNewSurveyActivity" />
         <activity android:name=".PastResultActivity" />
         <activity android:name=".CaseSearchActivity" />

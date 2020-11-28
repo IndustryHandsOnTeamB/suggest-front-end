@@ -3,6 +3,7 @@ package com.example.handson;
 import android.content.Context;
 import android.graphics.Color;
 import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import org.honorato.multistatetogglebutton.ToggleButton;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRecyclerViewAdapter.ViewHolder>{
 
@@ -33,8 +35,8 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View JobInterestView = inflater.inflate(R.layout.survey_job_value_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(JobInterestView);
+        View JobValueView = inflater.inflate(R.layout.survey_job_value_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(JobValueView);
 
         return viewHolder;
     }
@@ -58,15 +60,18 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
             @Override
             public void onValueChanged(int position) {
                 if (position == 0){
+                    Log.d("TAG", "onValueChanged: 0");
                     //intent.putExtra("choice",1);
                     //btn1 = true;
                 }
                 else{
+                    Log.d("TAG", "onValueChanged: 1");
                     //intent.putExtra("choice",2);
                     //btn1 = true;
                 }
             }
         });
+        holder.mstb_btn.getValue();
 
     }
 
@@ -87,8 +92,6 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
 
             textQuestion = (TextView)itemView.findViewById(R.id.text_survey_job_value_question);
             mstb_btn = (MultiStateToggleButton)itemView.findViewById(R.id.mstb_btn);
-
-
             }
     }
 

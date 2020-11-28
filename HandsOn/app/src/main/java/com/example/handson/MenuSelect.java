@@ -34,7 +34,7 @@ public class MenuSelect extends AppCompatActivity {
         counselCasesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CaseSearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SurveyJobAptitudeActivity.class);
                 startActivity(intent);
             }
         });

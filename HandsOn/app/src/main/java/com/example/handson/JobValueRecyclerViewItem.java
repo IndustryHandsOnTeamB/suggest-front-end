@@ -4,9 +4,13 @@ import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 
 public class JobValueRecyclerViewItem {
 
-    //question에 가치 2개를 넣어놔야할 것 같다.
+    //question에 가치관 2개를 넣기
     private String[] question;
     MultiStateToggleButton mstb;
+
+    public MultiStateToggleButton getMstb() {
+        return mstb;
+    }
 
     public JobValueRecyclerViewItem(String[] question){
         this.question = question;
