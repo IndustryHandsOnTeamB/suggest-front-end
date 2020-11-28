@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">HandsOn</string>
+
+
+    <string-array name="jobvalue_btn_array">
+        <item>value1</item>
+        <item>value2</item>
+    </string-array>
+
 </resources>
