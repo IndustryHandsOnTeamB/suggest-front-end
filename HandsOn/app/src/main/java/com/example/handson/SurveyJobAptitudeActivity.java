@@ -57,12 +57,12 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
         Log.d("TAG", "onCreate: " + Integer.toString(arrayListQuestion.size()));
 
 
-        if(arrayListQuestion.size() > 10) {
-            currentQuestionNumber = 10;
+        if(arrayListQuestion.size() > 8) {
+            currentQuestionNumber = 8;
         } else{
             currentQuestionNumber = arrayListQuestion.size();
         }
-        totalPageNumber = arrayListQuestion.size()/10 + 1;
+        totalPageNumber = arrayListQuestion.size()/8 + 1;
 
         subArrayList = new ArrayList<>(arrayListQuestion.subList(0, currentQuestionNumber));
         recyclerViewAdapter = new JobAptitudeRecyclerViewAdapter(subArrayList);
@@ -77,6 +77,17 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                boolean isAllCheck = true;
+
+                for(int qNum = 0; qNum < subArrayList.size(); qNum++){
+                    if(subArrayList.get(qNum).getMstbValue() != -1){
+                        qNum++;
+                    }
+                    else{
+
+                    }
+                }
                 //미체크된 항목 없는지 체크
                 //미체크된 항목 있을 경우 - Toast띄우기
                 //모두 체크되었다면 - 해당 페이지의 10개의 값을 저장 후 다음 페이지로 넘기기

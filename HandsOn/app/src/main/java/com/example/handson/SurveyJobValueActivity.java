@@ -62,12 +62,12 @@ public class SurveyJobValueActivity extends AppCompatActivity {
         arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "사회봉사"}));
         arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"사회봉사", "창의성"}));
 
-        if(arrayListQuestion.size() > 10) {
-            currentQuestionNumber = 10;
+        if(arrayListQuestion.size() > 7) {
+            currentQuestionNumber = 7;
         } else{
             currentQuestionNumber = arrayListQuestion.size();
         }
-        totalPageNumber = arrayListQuestion.size()/10 + 1;
+        totalPageNumber = arrayListQuestion.size()/7 + 1;
 
         subArrayList = new ArrayList<>(arrayListQuestion.subList(0, currentQuestionNumber));
         recyclerViewAdapter = new JobValueRecyclerViewAdapter(subArrayList);
