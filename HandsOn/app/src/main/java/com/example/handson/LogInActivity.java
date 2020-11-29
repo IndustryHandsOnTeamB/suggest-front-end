@@ -22,6 +22,9 @@ import java.net.URL;
 
 public class LogInActivity extends AppCompatActivity {
 
+    String myId, myName, myEmail, myType;
+    boolean logInSuccess = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +43,21 @@ public class LogInActivity extends AppCompatActivity {
                 String pwd = userPwd.getText().toString();
                 SignInJson signIn = new SignInJson();
                 signIn.execute(id, pwd);
-                Intent intent = new Intent(getApplicationContext(), MenuSelect.class);
-                intent.putExtra("userId", id);
-                finish();
-                startActivity(intent);
+
+                if(logInSuccess) {
+                    Intent intent = new Intent(getApplicationContext(), MenuSelect.class);
+                    intent.putExtra("userId", myId);
+                    intent.putExtra("userName", myName);
+                    intent.putExtra("userEmail", myEmail);
+                    intent.putExtra("userType", myType);
+
+                    finish();
+                    startActivity(intent);
+                }
+                else{
+                    //로그인 실패
+                    Toast.makeText(getApplicationContext(),"로그인 정보가 잘못되었습니다.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -61,20 +75,19 @@ public class LogInActivity extends AppCompatActivity {
         public String doInBackground(String... params) {
             String id = params[0];
             String pw = params[1];
-            String email = params[2];
-            String name = params[3];
 
             try {
                 // 로그인 시 입력한 정보를 Json object로 만들어서
                 JSONObject myJsonObject = new JSONObject();
                 try {
-                    myJsonObject.put("login_id", id);
-                    myJsonObject.put("name", pw);
-                    myJsonObject.put("pwd", email);
-                    myJsonObject.put("email",name);
+                    myJsonObject.put("username", id);
+                    myJsonObject.put("input_password", pw);
+                    myJsonObject.put("email", "email");
+                    myJsonObject.put("name", "name");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
 
                 // 서버 api에 전송을 시도한다
                 URL obj = new URL("http://ec2-3-34-135-151.ap-northeast-2.compute.amazonaws.com/admin/");
@@ -132,9 +145,27 @@ public class LogInActivity extends AppCompatActivity {
                     // 수신한 data s에 대해
                     JSONObject jsonObject = new JSONObject(s);
 
-                    if(statusCode == 201){
+                    if(statusCode == 200){
+                        logInSuccess = true;
                         // 데이터들을 추출하여 변수에 저장한다.
-                        //String statusFromServer = jsonObject.get("status").toString();
+                        myId = jsonObject.get("username").toString();
+                        myName = jsonObject.get("name").toString();
+                        myEmail = jsonObject.get("email").toString();
+                        int tempType = Integer.parseInt(jsonObject.get("user_type").toString());
+                        switch (tempType){
+                            case 1:
+                                myType = "중등";
+                                break;
+                            case 2:
+                                myType = "고등";
+                                break;
+                            case 3:
+                                myType = "일반";
+                                break;
+                            default:
+                                myType = "";
+                                break;
+                        }
 
                     }
 
