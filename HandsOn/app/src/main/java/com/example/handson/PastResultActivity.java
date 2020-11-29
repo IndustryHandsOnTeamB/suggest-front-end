@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -47,6 +50,7 @@ public class PastResultActivity extends AppCompatActivity {
                startActivity(tempIntent);
             }
         });
+
     }
 
     // Class for getting past results
@@ -67,7 +71,6 @@ public class PastResultActivity extends AppCompatActivity {
             String result_string = result;
 
             Log.d("###PastResultActivity",result_string);
-
         }
 
         @Override
