@@ -42,7 +42,7 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         String question = "- 둘 중 자신에게 더 중요한 가치를 선택하세요.";
 
@@ -55,24 +55,26 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
         CharSequence text2 = arrayListQuestion.get(holder.getAdapterPosition()).getQuestion_text2();
         CharSequence[] values = new CharSequence[]{text1, text2};
         holder.mstb_btn.setElements(values);
+        holder.mstb_btn.setValue(-1);
 
         holder.mstb_btn.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
             @Override
             public void onValueChanged(int position) {
-                if (position == 0){
-                    Log.d("TAG", "onValueChanged: 0");
+                arrayListQuestion.get(holder.getAdapterPosition()).setMstbVal(holder.mstb_btn.getValue());
+                holder.mstb_btn.setSelected(true);
+                //arrayListQuestion.get(holder.getAdapterPosition()).setPosition();
+                //if (position == 0){ // 해당 뷰에서 첫번째 문제
+                    //Log.d("TAG", "position: 0");
                     //intent.putExtra("choice",1);
                     //btn1 = true;
-                }
-                else{
-                    Log.d("TAG", "onValueChanged: 1");
+                //}
+                //else{
+                    //Log.d("TAG", "onValueChanged: 1");
                     //intent.putExtra("choice",2);
                     //btn1 = true;
-                }
+                //}
             }
         });
-        holder.mstb_btn.getValue();
-
     }
 
     @Override
@@ -92,7 +94,11 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
 
             textQuestion = (TextView)itemView.findViewById(R.id.text_survey_job_value_question);
             mstb_btn = (MultiStateToggleButton)itemView.findViewById(R.id.mstb_btn);
-            }
+        }
+
+        public int getVal(){
+            return mstb_btn.getValue();
+        }
     }
 
 }

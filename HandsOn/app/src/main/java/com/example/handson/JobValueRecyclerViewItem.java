@@ -6,14 +6,28 @@ public class JobValueRecyclerViewItem {
 
     //question에 가치관 2개를 넣기
     private String[] question;
-    MultiStateToggleButton mstb;
+    private int mstbVal;
+    //MultiStateToggleButton mstb;
 
-    public MultiStateToggleButton getMstb() {
-        return mstb;
-    }
 
     public JobValueRecyclerViewItem(String[] question){
         this.question = question;
+        this.mstbVal = -1; // 초기화
+    }
+
+    public boolean isCheckMstb(){
+        if(mstbVal != -1){
+            return true;
+        }
+        return false;
+    }
+
+    public int getMstbVal() {
+        return mstbVal;
+    }
+
+    public void setMstbVal(int position) {
+        this.mstbVal = position;
     }
 
     public String getQuestion_text1() {

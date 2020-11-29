@@ -50,6 +50,10 @@ public class JobAptitudeRecyclerViewAdapter extends RecyclerView.Adapter<JobApti
         textQuestion.setText(question);
 
         CharSequence[] values = new CharSequence[]{"1","2","3","4","5","6","7"};
+
+        if(position == 2){
+            Log.d("HEESUTAG", "onBindViewHolder: hhhh" + Integer.toString(holder.mstb_btn.getValue()));
+        }
         //holder.mstb_btn.setElements(values);
 
 
