@@ -61,7 +61,6 @@ public class SurveyJobValueActivity extends AppCompatActivity {
         arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "사회봉사"}));
         arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
         arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "사회봉사"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"사회봉사", "창의성"}));
 
         if(arrayListQuestion.size() > 7) {
             currentQuestionNumber = 7;

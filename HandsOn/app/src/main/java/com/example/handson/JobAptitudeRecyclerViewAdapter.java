@@ -35,7 +35,6 @@ public class JobAptitudeRecyclerViewAdapter extends RecyclerView.Adapter<JobApti
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View jobAptView = inflater.inflate(R.layout.survey_job_apt_item, parent, false);
-        //ViewHolder viewHolder = new ViewHolder(jobAptView);
 
         return new ViewHolder(jobAptView);
     }
@@ -50,76 +49,16 @@ public class JobAptitudeRecyclerViewAdapter extends RecyclerView.Adapter<JobApti
         textQuestion.setText(question);
 
         CharSequence[] values = new CharSequence[]{"1","2","3","4","5","6","7"};
-
-        if(position == 2){
-            Log.d("HEESUTAG", "onBindViewHolder: hhhh" + Integer.toString(holder.mstb_btn.getValue()));
-        }
-        //holder.mstb_btn.setElements(values);
-
+        holder.mstb_btn.setElements(values);
+        holder.mstb_btn.setValue(-1);
 
         holder.mstb_btn.setOnValueChangedListener(new ToggleButton.OnValueChangedListener() {
             @Override
             public void onValueChanged(int value) {
-                if(position == 0){
-                    Log.d("TAG", "onValueChanged: 0 - 1번째 문항이 눌렸다.");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-
-                }
-                else if(position == 1){
-                    Log.d("TAG", "onValueChanged: 1");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 2){
-                    Log.d("TAG", "onValueChanged: 2");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 3){
-                    Log.d("TAG", "onValueChanged: 3");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 4){
-                    Log.d("TAG", "onValueChanged: 4");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 5){
-                    Log.d("TAG", "onValueChanged: 5");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 6){
-                    Log.d("TAG", "onValueChanged: 6");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 7){
-                    Log.d("TAG", "onValueChanged: 7");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 8){
-                    Log.d("TAG", "onValueChanged: 8");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else if(position == 9){
-                    Log.d("TAG", "onValueChanged: 9");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
-                else{
-                    Log.d("TAG", "onValueChanged: 10");
-                    int a = holder.mstb_btn.getValue();
-                    Log.d("TAG", "onValueChanged: 그 값은 " + Integer.toString(a));
-                }
+                arrayListQuestion.get(holder.getAdapterPosition()).setMstbVal(holder.mstb_btn.getValue());
+                holder.mstb_btn.setSelected(true);
             }
         });
-
-
     }
 
     @Override
@@ -140,6 +79,10 @@ public class JobAptitudeRecyclerViewAdapter extends RecyclerView.Adapter<JobApti
             textQuestion = (TextView)itemView.findViewById(R.id.text_survey_job_apt_question);
             mstb_btn = (MultiStateToggleButton)itemView.findViewById(R.id.mstb_btn_jobapt);
             this.itemView = itemView;
+        }
+
+        public int getVal(){
+            return mstb_btn.getValue();
         }
 
         View viewReturn(){

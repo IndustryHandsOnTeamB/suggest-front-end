@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.honorato.multistatetogglebutton.MultiStateToggleButton;
 import org.honorato.multistatetogglebutton.ToggleButton;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -49,8 +48,6 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
         TextView textQuestion = holder.textQuestion;
         textQuestion.setText(question);
 
-//        String question = arrayListQuestion.get(holder.getAdapterPosition()).getQuestion();
-
         CharSequence text1 = arrayListQuestion.get(holder.getAdapterPosition()).getQuestion_text1();
         CharSequence text2 = arrayListQuestion.get(holder.getAdapterPosition()).getQuestion_text2();
         CharSequence[] values = new CharSequence[]{text1, text2};
@@ -62,17 +59,6 @@ public class JobValueRecyclerViewAdapter extends RecyclerView.Adapter<JobValueRe
             public void onValueChanged(int position) {
                 arrayListQuestion.get(holder.getAdapterPosition()).setMstbVal(holder.mstb_btn.getValue());
                 holder.mstb_btn.setSelected(true);
-                //arrayListQuestion.get(holder.getAdapterPosition()).setPosition();
-                //if (position == 0){ // 해당 뷰에서 첫번째 문제
-                    //Log.d("TAG", "position: 0");
-                    //intent.putExtra("choice",1);
-                    //btn1 = true;
-                //}
-                //else{
-                    //Log.d("TAG", "onValueChanged: 1");
-                    //intent.putExtra("choice",2);
-                    //btn1 = true;
-                //}
             }
         });
     }
