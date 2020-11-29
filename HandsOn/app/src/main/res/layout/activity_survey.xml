@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="15dp"
-    tools:context=".SurveyActivity">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,14 +18,15 @@
             android:text="설문 종류 이름"
             android:textColor="@android:color/black"
             android:textStyle="bold"
-            android:textSize="30dp"
+            android:textSize="25dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_survey"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="550dp"
             android:background="@drawable/layout_shape"
             android:scrollbarFadeDuration="0"
             android:scrollbarSize="5dp"/>

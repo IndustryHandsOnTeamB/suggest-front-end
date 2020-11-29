@@ -9,21 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StartNewSurveyActivity"></activity>
+        <activity android:name=".StartNewSurveyActivity"/>
         <activity android:name=".PastResultActivity" />
         <activity android:name=".CaseSearchActivity" />
         <activity android:name=".MenuSelect" />
         <activity android:name=".LogInActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SurveyResultActivity" />
         <activity android:name=".RecommendListActivity" />
+        <activity android:name=".SurveySTEMMajorSuitabilityActivity">
+        </activity>
+        <activity android:name=".SurveyJobInterestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SurveyActivity" />
     </application>
-
 </manifest>
