@@ -35,6 +35,7 @@ public class MenuSelect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MbtiActivity.class);
+
                 startActivity(intent);
             }
         });
@@ -42,8 +43,8 @@ public class MenuSelect extends AppCompatActivity {
         testStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), #####.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), SurveyJobValueActivity.class);
+                startActivity(intent);
             }
         });
 
