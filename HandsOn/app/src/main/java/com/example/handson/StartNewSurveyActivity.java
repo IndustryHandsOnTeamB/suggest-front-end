@@ -60,6 +60,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
             public void onClick(View view) {
                 switch(surveyType) {
                     case "직업적성검사":
+                        //TBD
                         requestURL = "";
 
                         break;
@@ -88,7 +89,6 @@ public class StartNewSurveyActivity extends AppCompatActivity {
 
                 GetSurvey getSurvey = new GetSurvey();
                 getSurvey.execute(requestURL);
-
 
 //                Intent tempIntent = new Intent(StartNewSurveyActivity.this, PastResultActivity.class);
 //                startActivity(tempIntent);
