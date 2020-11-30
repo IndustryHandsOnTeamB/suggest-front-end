@@ -2,34 +2,9 @@ package com.example.handson;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.sax.StartElementListener;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class StartNewSurveyActivity extends AppCompatActivity {
-
-    private Button startBtn;
-    private Spinner surveyType_spinner, userType_spinner;
-    private String surveyType, userType, requestURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
