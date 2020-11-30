@@ -28,13 +28,25 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        final boolean usableId = true;
-        final String[] userTypeList = {"중학생","고등학생","대학생","기타"};
+        final String[] userInfo = new String[5];    //id, password, name, email. user type
+
+        final String[] userTypeList = {"중학생","고등학생","일반"};
 
         final Spinner userTypeSpinner = (Spinner)findViewById(R.id.user_type_spinner);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, userTypeList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeSpinner.setAdapter(adapter);
+
+        userTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id){
+                userInfo[4] = adapterView.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView){
+
+            }
+        });
 
         //Button idCheckButton = (Button)findViewById(R.id.id_check_button);
         Button signUpButton = (Button)findViewById(R.id.join_button);
@@ -47,20 +59,6 @@ public class SignUpActivity extends AppCompatActivity {
         final EditText userPwdCheck = (EditText)findViewById(R.id.user_pwd_check);
 
 
-/*
-        idCheckButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //String newId = userId.getText().toString();
-                ////같은 아이디 있는지 check
-                //if(usableId)
-                //    Toast.makeText(getApplicationContext(),"사용가능한 아이디입니다.",Toast.LENGTH_SHORT).show();
-                //else
-                //    Toast.makeText(getApplicationContext(),"이미 사용중인 아이디입니다.",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-*/
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,31 +68,20 @@ public class SignUpActivity extends AppCompatActivity {
                 if(newPwd.equals(newPwdCheck))
                     pwdIsSame = true;
 
-                if(!usableId)
-                    Toast.makeText(getApplicationContext(),"아이디를 확인해주세요.",Toast.LENGTH_SHORT).show();
-                else if(!pwdIsSame)
+                if(!pwdIsSame)
                     Toast.makeText(getApplicationContext(),"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
                 else{
-                    final String[] userInfo = new String[4];    //id, password, name, email. user type
+
                     userInfo[0] = userId.getText().toString();
                     userInfo[1] = userPwd.getText().toString();
                     userInfo[2] = userName.getText().toString();
                     userInfo[3] = userEmail.getText().toString();
-                    userTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id){
-                            userInfo[4] = adapterView.getItemAtPosition(position).toString();
-                        }
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView){
 
-                        }
-                    });
+                    //Log.d("json","input : "+userInfo[0]+" "+userInfo[1]+" "+userInfo[2]+" "+userInfo[3]+" "+userInfo[4]);
+                    SignUpJson signUp = new SignUpJson();
+                    signUp.execute(userInfo[0],userInfo[1],userInfo[2],userInfo[3],userInfo[4]);       // id, email, name, password
 
-                    SignUpJson signIn = new SignUpJson();
-                    signIn.execute(userInfo);       // id, email, name, password
-
-                    finish();
+                    //finish();
                 }
             }
         });
@@ -129,9 +116,8 @@ public class SignUpActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 // 서버 api에 전송을 시도한다
-                URL obj = new URL("http://ec2-3-34-135-151.ap-northeast-2.compute.amazonaws.com/api/v1/users/signup/");
+                URL obj = new URL("http://15.165.18.48/api/v1/users/signup/");
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -149,7 +135,6 @@ public class SignUpActivity extends AppCompatActivity {
                 os.write(myJsonObject.toString().getBytes());
                 os.flush();
                 os.close();
-
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 
@@ -191,6 +176,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Log.d("json","--------------------회원가입성공");
                         String idFromServer = jsonObject.get("username").toString();
                         Toast.makeText(getApplicationContext(),idFromServer + " 회원가입 성공",Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                     if(statusCode == 400){
                         Log.d("json","--------------------아이디 중복");

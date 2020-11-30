@@ -2,7 +2,8 @@ package com.example.handson;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.util.Log;
@@ -10,10 +11,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MbtiActivity extends AppCompatActivity {
+
+    int myUserPk;
+
     Button eButton, iButton, nButton, sButton, tButton, fButton, jButton, pButton;
     boolean iBtnPressed = false, nBtnPressed = false, tBtnPressed = false, jBtnPressed = false;
 
@@ -21,6 +33,9 @@ public class MbtiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.avtivity_set_mbti);
+
+        Intent intent = getIntent();
+        myUserPk = intent.getIntExtra("userPk", 4444);
 
         eButton = (Button)findViewById(R.id.e_button);
         iButton = (Button)findViewById(R.id.i_button);
@@ -48,6 +63,9 @@ public class MbtiActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String myMbti = getMbtiFromButtons();
                 Log.v("Tag","내 mbti: "+myMbti);
+
+                MbtiJson signIn = new MbtiJson();
+                signIn.execute(myMbti);
                 //TO-DO : myMbti 서버에 저장
                 finish();
             }
@@ -115,8 +133,8 @@ public class MbtiActivity extends AppCompatActivity {
     }
 
     void setButtonColor(Button btn1, Button btn2){
-        btn1.setBackgroundColor(Color.YELLOW);
-        btn2.setBackgroundColor(Color.LTGRAY);
+        btn1.setBackground(getResources().getDrawable(R.drawable.mbti_button_pink));
+        btn2.setBackground(getResources().getDrawable(R.drawable.mbti_button_lightgray));
     }
 
     String getMbtiFromButtons(){
@@ -131,5 +149,95 @@ public class MbtiActivity extends AppCompatActivity {
         else  myMbti=myMbti.concat("p");
 
         return myMbti;
+    }
+
+    public class MbtiJson extends AsyncTask<String, Void, String> {
+        private int statusCode;
+        public String doInBackground(String... params) {
+            String mbti = params[0];
+
+            try {
+                // 로그인 시 입력한 정보를 Json object로 만들어서
+                JSONObject myJsonObject = new JSONObject();
+                try {
+                    myJsonObject.put("list", "listlist");
+                    myJsonObject.put("type", mbti);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // 서버 api에 전송을 시도한다
+                URL obj = new URL("http://15.165.18.48/api/v1/users/"
+                        + String.valueOf(myUserPk) + "/mbti/");
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                // 데이터를 읽어올 것이고
+                conn.setDoInput(true);
+                // 데이터를 쓸 것이다.
+                conn.setDoOutput(true);
+
+                // property 지정해주고
+                conn.setRequestProperty("Accept", "application/json");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // 전송을 해본다
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+
+
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                statusCode = conn.getResponseCode();
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s == null) {
+                // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+            } else {
+                try {
+                    // 수신한 data s에 대해
+                    JSONObject jsonObject = new JSONObject(s);
+
+                    if(statusCode == 200){
+                        // 데이터들을 추출하여 변수에 저장한다.
+                        //myId = jsonObject.get("username").toString();
+                        //myName = jsonObject.get("name").toString();
+                        //myEmail = jsonObject.get("email").toString();
+                        //int tempType = Integer.parseInt(jsonObject.get("user_type").toString());
+                        Log.d("mbti","-----------------------mbtitype 등록---------------------");
+
+                    }
+
+                } catch (JSONException e) {
+
+                }
+            }
+        }
+
     }
 }
