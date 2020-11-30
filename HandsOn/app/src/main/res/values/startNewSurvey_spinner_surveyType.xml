@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="테스트">
-        <item>직업적성검사</item>
-        <item>직업가치관검사</item>
-        <item>직업흥미검사</item>
-        <item>이공계가치관검사</item>
+        <item>Test1</item>
+        <item>Test2</item>
+        <item>Test3</item>
     </string-array>
 </resources>
