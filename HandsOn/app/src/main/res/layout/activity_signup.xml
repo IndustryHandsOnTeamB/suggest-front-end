@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".LogInActivity">
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -59,12 +60,13 @@
         android:id="@+id/user_pwd_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="230dp"
         android:ems="10"
+        android:layout_marginBottom="230dp"
         android:hint="비밀번호 확인"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/user_pwd" />
+
 
     <TextView
         android:id="@+id/user_type_text"

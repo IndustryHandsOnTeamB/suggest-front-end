@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/mstb_btn_jobapt"
         mstb:values="@array/job_apt_btn_array"
-        mstb:mstbPrimaryColor="@color/button_primary_color"
+        mstb:mstbPrimaryColor="@color/mainColor"
         mstb:mstbSecondaryColor="@color/button_secondary_color"
         app:layout_constraintTop_toBottomOf="@+id/text_survey_job_apt_question"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -36,6 +36,7 @@ public class MbtiActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         myUserPk = intent.getIntExtra("userPk", 4444);
+        Log.d("intent","=================================Mbti에서 받은 userPk: "+myUserPk);
 
         eButton = (Button)findViewById(R.id.e_button);
         iButton = (Button)findViewById(R.id.i_button);
@@ -62,7 +63,7 @@ public class MbtiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String myMbti = getMbtiFromButtons();
-                Log.v("Tag","내 mbti: "+myMbti);
+                Log.d("Tag","내 mbti: "+myMbti);
 
                 MbtiJson signIn = new MbtiJson();
                 signIn.execute(myMbti);
@@ -133,8 +134,8 @@ public class MbtiActivity extends AppCompatActivity {
     }
 
     void setButtonColor(Button btn1, Button btn2){
-        btn1.setBackground(getResources().getDrawable(R.drawable.mbti_button_pink));
-        btn2.setBackground(getResources().getDrawable(R.drawable.mbti_button_lightgray));
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_lightblue));
+        btn2.setBackground(getResources().getDrawable(R.drawable.button_lightgray));
     }
 
     String getMbtiFromButtons(){
@@ -157,11 +158,10 @@ public class MbtiActivity extends AppCompatActivity {
             String mbti = params[0];
 
             try {
-                // 로그인 시 입력한 정보를 Json object로 만들어서
+                //입력한 정보를 Json object로 만들어서
                 JSONObject myJsonObject = new JSONObject();
                 try {
-                    myJsonObject.put("list", "listlist");
-                    myJsonObject.put("type", mbti);
+                    myJsonObject.put("mbti", mbti);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -218,6 +218,7 @@ public class MbtiActivity extends AppCompatActivity {
 
             if (s == null) {
                 // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+                Log.d("mbti","-----------------------null from server---------------------");
             } else {
                 try {
                     // 수신한 data s에 대해

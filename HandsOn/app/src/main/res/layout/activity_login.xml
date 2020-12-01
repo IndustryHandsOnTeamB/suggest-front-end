@@ -61,6 +61,7 @@
         android:layout_marginStart="96dp"
         android:layout_marginLeft="96dp"
         android:text="로그인"
+        android:elevation="10dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/signup_button"
         app:layout_constraintStart_toStartOf="parent" />
 

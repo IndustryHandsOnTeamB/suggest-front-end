@@ -62,7 +62,7 @@
                 android:id="@+id/button_survey_next"
                 android:text="NEXT"
                 android:textSize="20dp"
-                android:textColor="@android:color/black"/>
+                style="@style/defaultButton"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

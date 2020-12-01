@@ -8,10 +8,11 @@
 
     <TextView
         android:id="@+id/mbti_link"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColorLink="@color/colorPrimary"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:textColorLink="@color/mainColor"
         android:text="MBTI 검사 하러 가기"
+        android:textAlignment="center"
         android:textSize="25dp"
         android:layout_marginTop="150dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +37,7 @@
             android:layout_marginRight="5dp"
             android:text="I"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:textSize="40dp"/>
 
         <Button
@@ -47,7 +48,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:text="N"
             android:textSize="40dp"/>
         <Button
@@ -58,7 +59,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:text="T"
             android:textSize="40dp"/>
         <Button
@@ -68,7 +69,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:text="J"
             android:textSize="40dp"/>
 
@@ -90,7 +91,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:text="E"
             android:textSize="40dp"/>
 
@@ -102,7 +103,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:text="S"
             android:textSize="40dp"/>
         <Button
@@ -113,7 +114,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:text="F"
             android:textSize="40dp"/>
         <Button
@@ -123,7 +124,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:elevation="3dp"
-            android:background="@drawable/mbti_button_lightgray"
+            android:background="@drawable/button_lightgray"
             android:text="P"
             android:textSize="40dp"/>
 

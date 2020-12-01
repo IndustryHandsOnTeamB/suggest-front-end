@@ -24,7 +24,9 @@
         android:layout_height="0dp"
             android:layout_weight="1"
         android:id="@+id/temp"
+            style="@style/defaultButton"
         android:text="past_result"
+            android:elevation="5dp"
             android:layout_gravity="center"></Button>
 
 </LinearLayout>

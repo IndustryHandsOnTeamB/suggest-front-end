@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/mstb_btn"
         mstb:values="@array/jobvalue_btn_array"
-        mstb:mstbPrimaryColor="@color/button_primary_color"
+        mstb:mstbPrimaryColor="@color/mainColor"
         mstb:mstbSecondaryColor="@color/button_secondary_color"
         app:layout_constraintTop_toBottomOf="@id/text_survey_job_value_question"
         app:layout_constraintBottom_toBottomOf="parent"
