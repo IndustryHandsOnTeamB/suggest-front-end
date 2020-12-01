@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MenuSelect extends AppCompatActivity {
 
+    String userId, userName, userEmail, userType;
+    int userPk;
 
     Button lastResultButton;
     Button mbtiButton;
@@ -49,9 +52,9 @@ public class MenuSelect extends AppCompatActivity {
         mbtiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MbtiActivity.class);
-
-                startActivity(intent);
+                Intent intent3 = new Intent(getApplicationContext(), MbtiActivity.class);
+                intent3.putExtra("userPk", userPk);
+                startActivity(intent3);
             }
         });
 

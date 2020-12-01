@@ -171,6 +171,7 @@ public class LogInActivity extends AppCompatActivity {
 
                         // 데이터들을 추출하여 변수에 저장한다.
                         myUserPk = Integer.parseInt(jsonObject.get("id").toString());
+                        Log.d("json","========================================================userPk: "+myUserPk);
                         myId = jsonObject.get("username").toString();
                         myName = jsonObject.get("name").toString();
                         myEmail = jsonObject.get("email").toString();
@@ -184,8 +185,8 @@ public class LogInActivity extends AppCompatActivity {
                         intent.putExtra("userType", myType);
                         intent.putExtra("userPk", myUserPk);
 
-                        finish();
                         startActivity(intent);
+                        finish();
 
                     }
 
