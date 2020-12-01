@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,8 +68,8 @@ public class MbtiActivity extends AppCompatActivity {
 
                 MbtiJson signIn = new MbtiJson();
                 signIn.execute(myMbti);
-                //TO-DO : myMbti 서버에 저장
                 finish();
+
             }
         });
 
@@ -140,14 +141,14 @@ public class MbtiActivity extends AppCompatActivity {
 
     String getMbtiFromButtons(){
         String myMbti = "";
-        if(iBtnPressed) myMbti=myMbti.concat("i");
-        else  myMbti=myMbti.concat("e");
-        if(nBtnPressed) myMbti=myMbti.concat("n");
-        else  myMbti=myMbti.concat("s");
-        if(tBtnPressed) myMbti=myMbti.concat("t");
-        else  myMbti=myMbti.concat("f");
-        if(jBtnPressed) myMbti=myMbti.concat("j");
-        else  myMbti=myMbti.concat("p");
+        if(iBtnPressed) myMbti=myMbti.concat("I");
+        else  myMbti=myMbti.concat("E");
+        if(nBtnPressed) myMbti=myMbti.concat("N");
+        else  myMbti=myMbti.concat("S");
+        if(tBtnPressed) myMbti=myMbti.concat("T");
+        else  myMbti=myMbti.concat("F");
+        if(jBtnPressed) myMbti=myMbti.concat("J");
+        else  myMbti=myMbti.concat("P");
 
         return myMbti;
     }
@@ -168,7 +169,7 @@ public class MbtiActivity extends AppCompatActivity {
 
                 // 서버 api에 전송을 시도한다
                 URL obj = new URL("http://15.165.18.48/api/v1/users/"
-                        + String.valueOf(myUserPk) + "/mbti/");
+                        + String.valueOf(myUserPk) + "/mbti/save/");
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
 
@@ -224,13 +225,15 @@ public class MbtiActivity extends AppCompatActivity {
                     // 수신한 data s에 대해
                     JSONObject jsonObject = new JSONObject(s);
 
-                    if(statusCode == 200){
+                    if(statusCode == 201){
                         // 데이터들을 추출하여 변수에 저장한다.
                         //myId = jsonObject.get("username").toString();
                         //myName = jsonObject.get("name").toString();
                         //myEmail = jsonObject.get("email").toString();
                         //int tempType = Integer.parseInt(jsonObject.get("user_type").toString());
                         Log.d("mbti","-----------------------mbtitype 등록---------------------");
+                        //Toast.makeText(getApplicationContext(), "내 MBTI 등록", Toast.LENGTH_SHORT).show();
+
 
                     }
 
