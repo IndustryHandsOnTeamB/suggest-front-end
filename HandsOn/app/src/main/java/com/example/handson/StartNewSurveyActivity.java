@@ -3,6 +3,7 @@ package com.example.handson;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -26,11 +28,20 @@ public class StartNewSurveyActivity extends AppCompatActivity {
     private Spinner surveyType_spinner, userType_spinner;
     private Button startBtn, cancelBtn;
     private String surveyType, userType, requestURL;
+    private String userId, userName, userEmail;
+    private int userPk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_new_survey);
+
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        userName = intent.getStringExtra("userName");
+        userEmail = intent.getStringExtra("userEmail");
+        userType = intent.getStringExtra("userType");
+        userPk = intent.getIntExtra("userPk",4444);
 
         surveyType_spinner = (Spinner)findViewById(R.id.spinner_startnewsurvey_testtype);
         surveyType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -42,6 +53,21 @@ public class StartNewSurveyActivity extends AppCompatActivity {
         });
 
         userType_spinner = (Spinner)findViewById(R.id.spinner_startnewsurvey_usertype);
+        switch (userType) {
+            case "중학생":
+                userType_spinner.setSelection(0);
+                break;
+            case "고등학생":
+                userType_spinner.setSelection(1);
+                break;
+            case "일반":
+                userType_spinner.setSelection(2);
+                break;
+            default:
+
+                break;
+        }
+        userType_spinner.setEnabled(false);
         userType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?>  parent, View view, int position, long id) {
                 userType = userType_spinner.getSelectedItem().toString();
@@ -54,45 +80,58 @@ public class StartNewSurveyActivity extends AppCompatActivity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                GetSurvey getSurvey = new GetSurvey();
+
                 switch(surveyType) {
                     case "직업적성검사":
-                        //TBD
-                        requestURL = "";
-
+                        if(userType.contentEquals("고등학생")) {
+                            requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=21";
+                            getSurvey.execute(requestURL);
+                        } else if(userType.contentEquals("중학생")) {
+                            requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=20";
+                            getSurvey.execute(requestURL);
+                        } else {
+                            requestURL = "http://";
+                            Toast.makeText(getApplicationContext(),"해당 검사는 중,고등학생용입니다.",Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case "직업가치관검사":
                         requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=6";
+                        getSurvey.execute(requestURL);
                         break;
                     case "직업흥미검사":
                         if(userType.contentEquals("고등학생")) {
                             requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=5";
+                            getSurvey.execute(requestURL);
                         } else if(userType.contentEquals("중학생")) {
                             requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=4";
+                            getSurvey.execute(requestURL);
                         } else {
-                            requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=5";
+                            requestURL = "http://";
                             Toast.makeText(getApplicationContext(),"해당 검사는 중,고등학생용입니다.",Toast.LENGTH_SHORT).show();
                         }
                         break;
                     case "이공계가치관검사":
                         requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=9";
+                        getSurvey.execute(requestURL);
                         break;
                     default:
-
+                        Toast.makeText(getApplicationContext(),"처리 과정에서 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
                         break;
                 }
 
                 Log.d("###requestURL",requestURL);
-
-                GetSurvey getSurvey = new GetSurvey();
-                getSurvey.execute(requestURL);
-
-//                Intent tempIntent = new Intent(StartNewSurveyActivity.this, PastResultActivity.class);
-//                startActivity(tempIntent);
             }
         });
 
-//        LoginTest loginTest = new LoginTest();
-//        loginTest.execute("http://ec2-3-34-135-151.ap-northeast-2.compute.amazonaws.com/api/v1/users/signin/");
+        cancelBtn = (Button)findViewById(R.id.button_startnewsurvey_cancel);
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               finish();
+            }
+        });
     }
 
     class GetSurvey extends AsyncTask<String, Void, String> {
@@ -111,7 +150,69 @@ public class StartNewSurveyActivity extends AppCompatActivity {
 
             String result_string = result;
 
-            Log.d("###PastResultActivity",result_string);
+            try {
+                JSONObject jsonObject = new JSONObject(result_string);
+                String jsonSuccess = jsonObject.getString("SUCC_YN");
+                String jsonResult = jsonObject.getString("RESULT");
+
+                Log.d("###StartNewSurveyActivity - jsonResult",jsonResult);
+
+                if (jsonSuccess.contentEquals("Y")) {
+                    switch(surveyType) {
+                        case "직업적성검사":
+                            Intent intent = new Intent(StartNewSurveyActivity.this, SurveyJobAptitudeActivity.class);
+                            intent.putExtra("userId", userId);
+                            intent.putExtra("userName", userName);
+                            intent.putExtra("userEmail", userEmail);
+                            intent.putExtra("userType", userType);
+                            intent.putExtra("userPk", userPk);
+                            intent.putExtra("jsonResult", jsonResult);
+                            startActivity(intent);
+                            break;
+                        case "직업가치관검사":
+                            Intent intent2 = new Intent(StartNewSurveyActivity.this, SurveyJobValueActivity.class);
+                            intent2.putExtra("userId", userId);
+                            intent2.putExtra("userName", userName);
+                            intent2.putExtra("userEmail", userEmail);
+                            intent2.putExtra("userType", userType);
+                            intent2.putExtra("userPk", userPk);
+                            intent2.putExtra("jsonResult", jsonResult);
+                            startActivity(intent2);
+                            break;
+                        case "직업흥미검사":
+                            Intent intent3 = new Intent(StartNewSurveyActivity.this, SurveyJobInterestActivity.class);
+                            intent3.putExtra("userId", userId);
+                            intent3.putExtra("userName", userName);
+                            intent3.putExtra("userEmail", userEmail);
+                            intent3.putExtra("userType", userType);
+                            intent3.putExtra("userPk", userPk);
+                            intent3.putExtra("jsonResult", jsonResult);
+                            startActivity(intent3);
+                            break;
+                        case "이공계가치관검사":
+                            Intent intent4 = new Intent(StartNewSurveyActivity.this, SurveySTEMMajorSuitabilityActivity.class);
+                            intent4.putExtra("userId", userId);
+                            intent4.putExtra("userName", userName);
+                            intent4.putExtra("userEmail", userEmail);
+                            intent4.putExtra("userType", userType);
+                            intent4.putExtra("userPk", userPk);
+                            intent4.putExtra("jsonResult", jsonResult);
+                            startActivity(intent4);
+                            break;
+                        default:
+                            Toast.makeText(getApplicationContext(),"처리 과정에서 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), "서버 통신 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("###StartNewSurveyActivity",result_string);
         }
 
         @Override
@@ -134,7 +235,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
 //                outputStream.close();
 
                 int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d("###PastResultActivity", "GET response code - " + responseStatusCode);
+                Log.d("###StartNewSurveyActivity", "GET response code - " + responseStatusCode);
 
                 InputStream inputStream;
                 if(responseStatusCode == HttpURLConnection.HTTP_OK) {
@@ -158,7 +259,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
 
                 return sb.toString();
             } catch (Exception e) {
-                Log.d("###PastResultActivity", "doInBackGround error ", e);
+                Log.d("###StartNewSurveyActivity", "doInBackGround error ", e);
                 return new String("ERROR: " + e.getMessage());
             }
         }
@@ -180,7 +281,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
 
             String result_string = result;
 
-            Log.d("###PastResultActivity",result_string);
+            Log.d("###StartNewSurveyActivity",result_string);
         }
 
         @Override
@@ -214,7 +315,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                 outputStream.close();
 
                 int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d("###PastResultActivity", "POST response code - " + responseStatusCode);
+                Log.d("###StartNewSurveyActivity", "POST response code - " + responseStatusCode);
 
                 InputStream inputStream;
                 if(responseStatusCode == HttpURLConnection.HTTP_OK) {
@@ -238,7 +339,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
 
                 return sb.toString();
             } catch (Exception e) {
-                Log.d("###PastResultActivity", "doInBackGround error ", e);
+                Log.d("###StartNewSurveyActivity", "doInBackGround error ", e);
                 return new String("ERROR: " + e.getMessage());
             }
         }
