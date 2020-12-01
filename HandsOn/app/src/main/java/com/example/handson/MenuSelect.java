@@ -9,7 +9,6 @@ import android.widget.Button;
 
 public class MenuSelect extends AppCompatActivity {
 
-
     Button lastResultButton;
     Button mbtiButton;
     Button testStartButton;

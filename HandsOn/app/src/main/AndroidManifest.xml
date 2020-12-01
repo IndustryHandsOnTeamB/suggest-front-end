@@ -25,14 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignUpActivity"/>
         <activity android:name=".SurveyResultActivity" />
         <activity android:name=".RecommendListActivity" />
-        <activity android:name=".SurveySTEMMajorSuitabilityActivity">
-        </activity>
-        <activity android:name=".SurveyJobInterestActivity">
-
-        </activity>
+        <activity android:name=".SurveySTEMMajorSuitabilityActivity"/>
+        <activity android:name=".SurveyJobInterestActivity"/>
         <activity android:name=".SurveyActivity" />
     </application>
 </manifest>
