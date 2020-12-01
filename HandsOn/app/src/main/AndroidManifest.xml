@@ -28,11 +28,13 @@
         <activity android:name=".MenuSelect" />
         <activity android:name=".LogInActivity">
         </activity>
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignUpActivity"/>
         <activity android:name=".SurveyResultActivity" />
         <activity android:name=".RecommendListActivity" />
+
         <activity android:name=".SurveySTEMMajorSuitabilityActivity"></activity>
         <activity android:name=".SurveyJobInterestActivity"></activity>
+
         <activity android:name=".SurveyActivity" />
     </application>
 

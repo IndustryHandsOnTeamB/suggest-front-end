@@ -10,9 +10,6 @@ import android.widget.Button;
 
 public class MenuSelect extends AppCompatActivity {
 
-    String userId, userName, userEmail, userType;
-    int userPk;
-
     Button lastResultButton;
     Button mbtiButton;
     Button testStartButton;

@@ -23,7 +23,7 @@ import java.net.URL;
 public class LogInActivity extends AppCompatActivity {
 
     String myId, myName, myEmail, myType;
-    int myUserPk;
+    public static int myUserPk;
     boolean logInSuccess = false;
 
     @Override
