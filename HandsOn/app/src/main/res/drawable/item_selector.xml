@@ -4,6 +4,6 @@
         <color android:color="@color/buttonBasicColor" />
     </item>
     <item android:state_selected="true">
-        <color android:color="@color/buttonClickColor" />
+        <color android:color="@color/secondColor" />
     </item>
 </selector>

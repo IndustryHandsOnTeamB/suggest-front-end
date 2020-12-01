@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="추천 학과"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textSize="25dp"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/text_recommend_department"
+            android:fontFamily="@font/nanumsquare_acb"
             android:text="추천 학과 결과"
             android:textColor="@android:color/black"
             android:textSize="20dp"/>
@@ -72,6 +74,7 @@
             android:layout_height="wrap_content"
             android:text="추천 진로 분야"
             android:textSize="25dp"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textStyle="bold"
             android:layout_marginBottom="20dp"
             android:textColor="@android:color/black"/>
@@ -81,6 +84,7 @@
             android:layout_height="match_parent"
             android:id="@+id/text_recommend_job"
             android:text="추천 진로 분야 결과"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textColor="@android:color/black"
             android:textSize="20dp"/>
     </LinearLayout>

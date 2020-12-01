@@ -11,12 +11,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webview_pastresult"></WebView>
+
 
         <ListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
             android:layout_weight="8"
-        android:id="@+id/listview_pastresult"></ListView>
+            android:fontFamily="@font/nanumsquare_acb"
+        android:id="@+id/listview_pastresult">
+
+        </ListView>
 
 
         <Button
@@ -24,7 +32,10 @@
         android:layout_height="0dp"
             android:layout_weight="1"
         android:id="@+id/temp"
+            style="@style/defaultButton"
+            android:fontFamily="@font/nanumsquare_acb"
         android:text="past_result"
+            android:elevation="5dp"
             android:layout_gravity="center"></Button>
 
 </LinearLayout>

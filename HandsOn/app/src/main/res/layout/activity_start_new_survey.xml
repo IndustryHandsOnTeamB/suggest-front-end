@@ -9,43 +9,132 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_startnewsurvey_testtype"
-            android:entries="@array/테스트">
-
-        </Spinner>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_startnewsurvey_usertype"
-            android:entries="@array/사용자">
-        </Spinner>
+        android:orientation="vertical"
+        android:layout_marginTop="25px">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_gravity="bottom">
+            android:orientation="vertical"
+            android:layout_weight="0"
+            >
 
-            <Button
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_startnewsurvey_start"
-                android:text="시작"/>
+                android:text="테스트 종류"
+                android:fontFamily="@font/nanumsquare_acb"
+                android:layout_marginLeft="25px"></TextView>
 
-            <Button
-                android:layout_width="wrap_content"
+            <Spinner
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/button_startnewsurvey_cancel"
-                android:text="취소"/>
+                android:id="@+id/spinner_startnewsurvey_testtype"
+                android:fontFamily="@font/nanumsquare_acb"
+                android:entries="@array/테스트"
+                android:layout_marginTop="25px">
+            </Spinner>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:background="#246391"
+            android:layout_marginLeft="25px"
+            android:layout_marginRight="25px"
+            android:layout_marginTop="25px"
+            android:layout_weight="0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="25px"
+            android:layout_weight="0">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="사용자 타입"
+                android:fontFamily="@font/nanumsquare_acb"
+                android:layout_marginLeft="25px"></TextView>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner_startnewsurvey_usertype"
+                android:entries="@array/사용자"
+                android:layout_marginTop="25px">
+            </Spinner>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:background="#246391"
+            android:layout_marginLeft="25px"
+            android:layout_marginRight="25px"
+            android:layout_marginTop="25px"
+            android:layout_weight="0"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25px"
+            android:layout_weight="1"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="테스트 내용"
+                android:fontFamily="@font/nanumsquare_acb"
+                android:layout_marginLeft="25px"
+                android:gravity="center"></TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:baselineAligned="true"
+            android:layout_weight="0">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10px"
+                android:background="#246391"
+                android:layout_marginLeft="25px"
+                android:layout_marginRight="25px"
+                android:layout_marginTop="25px"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="bottom|center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_startnewsurvey_start"
+                    style="@style/defaultButton"
+                    android:elevation="3dp"
+                    android:fontFamily="@font/nanumsquare_acb"
+                    android:text="시작"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/button_startnewsurvey_cancel"
+                    android:text="취소"
+                    style="@style/defaultButton"
+                    android:elevation="3dp"
+                    android:fontFamily="@font/nanumsquare_acb"/>
+            </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
