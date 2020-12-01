@@ -15,7 +15,7 @@ public class MenuSelect extends AppCompatActivity {
     Button testStartButton;
 
     String userId, userName, userEmail, userType;
-    int userPk;
+    public static int userPk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -88,7 +88,7 @@ public class SurveyResultActivity extends AppCompatActivity {
         //resultText2.setText("");
 
         MbtiListGetJSON mbtiJson = new MbtiListGetJSON();
-        mbtiJson.execute(String.valueOf(LogInActivity.myUserPk));
+        mbtiJson.execute(String.valueOf(MenuSelect.userPk));
 
         mbtiTitleText = "나의 MBTI 추천 직업은?";
 
