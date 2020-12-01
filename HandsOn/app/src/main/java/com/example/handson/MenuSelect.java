@@ -17,6 +17,9 @@ public class MenuSelect extends AppCompatActivity {
     Button mbtiButton;
     Button testStartButton;
 
+    String userId, userName, userEmail, userType;
+    int userPk;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,11 @@ public class MenuSelect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PastResultActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userType", userType);
+                intent.putExtra("userPk", userPk);
                 startActivity(intent);
             }
         });
