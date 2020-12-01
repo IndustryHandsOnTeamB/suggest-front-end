@@ -86,10 +86,10 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                 switch(surveyType) {
                     case "직업적성검사":
                         if(userType.contentEquals("고등학생")) {
-                            requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=21";
+                            requestURL = "http://15.165.18.48/api/v1/users/"+userPk +"/question/high/aptitude";
                             getSurvey.execute(requestURL);
                         } else if(userType.contentEquals("중학생")) {
-                            requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=20";
+                            requestURL = "http://15.165.18.48/api/v1/users/"+userPk +"/question/middle/aptitude";
                             getSurvey.execute(requestURL);
                         } else {
                             requestURL = "http://";
@@ -97,15 +97,15 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                         }
                         break;
                     case "직업가치관검사":
-                        requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=6";
+                        requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/value";
                         getSurvey.execute(requestURL);
                         break;
                     case "직업흥미검사":
                         if(userType.contentEquals("고등학생")) {
-                            requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=5";
+                            requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/high/interest";
                             getSurvey.execute(requestURL);
                         } else if(userType.contentEquals("중학생")) {
-                            requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=4";
+                            requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/middle/interest";
                             getSurvey.execute(requestURL);
                         } else {
                             requestURL = "http://";
@@ -113,7 +113,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                         }
                         break;
                     case "이공계가치관검사":
-                        requestURL = "http://inspct.career.go.kr/openapi/test/questions?apikey=403f9bbdb00069287e869a9b302b406b&q=9";
+                        requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/se";
                         getSurvey.execute(requestURL);
                         break;
                     default:
@@ -129,7 +129,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               finish();
+                finish();
             }
         });
     }
