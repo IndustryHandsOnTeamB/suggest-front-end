@@ -9,6 +9,7 @@
     <Button
         android:id="@+id/last_result_button"
         android:background="@drawable/button_lightblue"
+        android:fontFamily="@font/nanumsquare_acb"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:textSize="20dp"
@@ -22,6 +23,7 @@
     <Button
         android:id="@+id/mbti_button"
         android:background="@drawable/button_lightblue"
+        android:fontFamily="@font/nanumsquare_acb"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:textSize="20dp"
@@ -36,6 +38,7 @@
         android:id="@+id/test_start_button"
         android:background="@drawable/button_lightblue"
         android:layout_width="200dp"
+        android:fontFamily="@font/nanumsquare_acb"
         android:layout_height="100dp"
         android:textSize="20dp"
         android:text="설문 진행"

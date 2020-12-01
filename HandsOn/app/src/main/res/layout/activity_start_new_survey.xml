@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_startnewsurvey_testtype"
+            android:fontFamily="@font/nanumsquare_acb"
             android:entries="@array/테스트">
 
         </Spinner>
@@ -23,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_startnewsurvey_usertype"
+            android:fontFamily="@font/nanumsquare_acb"
             android:entries="@array/사용자">
         </Spinner>
 
@@ -39,6 +41,7 @@
                 android:id="@+id/button_startnewsurvey_start"
                 style="@style/defaultButton"
                 android:elevation="3dp"
+                android:fontFamily="@font/nanumsquare_acb"
                 android:text="시작"/>
 
             <Button
@@ -47,6 +50,7 @@
                 android:id="@+id/button_startnewsurvey_cancel"
                 style="@style/defaultButton"
                 android:elevation="3dp"
+                android:fontFamily="@font/nanumsquare_acb"
                 android:text="취소"/>
         </LinearLayout>
 
