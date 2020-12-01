@@ -14,10 +14,20 @@ public class MenuSelect extends AppCompatActivity {
     Button mbtiButton;
     Button testStartButton;
 
+    String userId, userName, userEmail, userType;
+    int userPk;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_select);
+
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        userName = intent.getStringExtra("userName");
+        userEmail = intent.getStringExtra("userEmail");
+        userType = intent.getStringExtra("userType");
+        userPk = intent.getIntExtra("userPk",4444);
 
         lastResultButton = (Button)findViewById(R.id.last_result_button);
         mbtiButton = (Button)findViewById(R.id.mbti_button);
@@ -27,6 +37,11 @@ public class MenuSelect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PastResultActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userType", userType);
+                intent.putExtra("userPk", userPk);
                 startActivity(intent);
             }
         });
