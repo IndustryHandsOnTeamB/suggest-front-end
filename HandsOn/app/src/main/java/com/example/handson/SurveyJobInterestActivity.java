@@ -232,6 +232,8 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
 
 
                         Intent intent = new Intent(SurveyJobInterestActivity.this, SurveyResultActivity.class);
+                        String stype = "interest";
+                        intent.putExtra("sType", stype);
                         intent.putExtra("resultURL", resultURL);
                         startActivity(intent);
                         finish();

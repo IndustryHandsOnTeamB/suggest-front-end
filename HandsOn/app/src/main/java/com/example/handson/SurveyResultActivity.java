@@ -38,6 +38,7 @@ public class SurveyResultActivity extends AppCompatActivity {
     2 : 직업 가치관 검사
     3 : 이공계 적합도 검사
     */
+
     int surveyType = 2;
     String getURL;
 
@@ -53,10 +54,15 @@ public class SurveyResultActivity extends AppCompatActivity {
         ResultItem resultItem;
 
         Intent intent = getIntent();
-        getURL = intent.getExtras().getString("resultURL");
 
         //결과 나오는 URL 주소
-        Log.d("TAG", "URL is" + getURL);
+        getURL = intent.getExtras().getString("resultURL");
+        Log.d("TAG", "===========URL is     " + getURL);
+
+        //vocation / interest / value / engineering 중 해당하는 string surveyTypeStr에 저장
+        String surveyTypeStr = getURL.substring(getURL.lastIndexOf("psycho/") + 7);
+        surveyTypeStr = surveyTypeStr.split("/")[0];
+        Log.d("TAG", "===========S TYPE :  " +  surveyTypeStr);
 
         /*
         Intent getIntent = getIntent();
