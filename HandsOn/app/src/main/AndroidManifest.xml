@@ -19,14 +19,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".SurveyJobValueActivity" />
         <activity android:name=".SurveyJobAptitudeActivity" />
         <activity android:name=".StartNewSurveyActivity" />
         <activity android:name=".PastResultActivity" />
         <activity android:name=".MbtiActivity" />
-        <activity android:name=".MenuSelect" >
-        </activity>
+        <activity android:name=".MenuSelect" />
         <activity android:name=".LogInActivity">
         </activity>
         <activity android:name=".SignUpActivity"/>

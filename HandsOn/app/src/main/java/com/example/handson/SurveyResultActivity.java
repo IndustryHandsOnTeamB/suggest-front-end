@@ -39,6 +39,7 @@ public class SurveyResultActivity extends AppCompatActivity {
     3 : 이공계 적합도 검사
     */
     int surveyType = 2;
+    String getURL;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +51,12 @@ public class SurveyResultActivity extends AppCompatActivity {
 
         LinearLayout surveyResultLayout = (LinearLayout)findViewById(R.id.layout_survey_result_dynamic);
         ResultItem resultItem;
+
+        Intent intent = getIntent();
+        getURL = intent.getExtras().getString("resultURL");
+
+        //결과 나오는 URL 주소
+        Log.d("TAG", "URL is" + getURL);
 
         /*
         Intent getIntent = getIntent();

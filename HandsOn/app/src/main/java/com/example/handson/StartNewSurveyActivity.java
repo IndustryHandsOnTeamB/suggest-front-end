@@ -113,6 +113,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                         }
                         break;
                     case "이공계가치관검사":
+
                         if(userType.contentEquals("일반인")){
                             requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/se";
                             getSurvey.execute(requestURL);
