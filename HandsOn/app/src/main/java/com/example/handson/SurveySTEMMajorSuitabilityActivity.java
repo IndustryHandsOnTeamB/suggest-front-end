@@ -111,7 +111,11 @@ public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
                         }
 
                         STEMSurveyResultJson surveyResultJson = new STEMSurveyResultJson();
-                        surveyResultJson.execute(surveyResult);
+                        String testResult;
+                        testResult="1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2";
+                        //surveyResultJson.execute(surveyResult);
+                        surveyResultJson.execute(testResult);
+
                         Intent intent = new Intent(SurveySTEMMajorSuitabilityActivity.this, SurveyResultActivity.class);
                         startActivity(intent);
                         finish();
@@ -154,7 +158,7 @@ public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
                 JSONObject myJsonObject = new JSONObject();
                 try {
                     //myJsonObject에 key : answers, value에 String 형태의 jobValueResult 추가
-                    myJsonObject.put("answers", stemSurveyResult);
+                    myJsonObject.put("answer", stemSurveyResult);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

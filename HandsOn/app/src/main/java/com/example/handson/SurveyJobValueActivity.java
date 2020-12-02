@@ -125,9 +125,14 @@ public class SurveyJobValueActivity extends AppCompatActivity {
 
                         //Intent intent = new Intent(SurveyJobValueActivity.this, SurveyResultActivity.class);
 
+
+
                         // 결과 string으로 post method로 보내기
                         SurveyResultJson surveyResultJson = new SurveyResultJson();
-                        surveyResultJson.execute(surveyResult);
+
+                        String testResult="B1=1 B2=1 B3=1 B4=1 B5=1 B6=1 B7=1 B8=5 B9=5 B10=1 B11=4 B12=4 B13=5 B14=4 B15=4 B16=4 B17=4 B18=5 B19=1 B20=1 B21=1 B22=5 B23=3 B24=6 B25=3 B26=2 B27=2 B28=1";
+                        surveyResultJson.execute(testResult);
+                        //surveyResultJson.execute(surveyResult);
 
                         //startActivity(intent);
                         //finish();
@@ -174,7 +179,7 @@ public class SurveyJobValueActivity extends AppCompatActivity {
                 JSONObject myJsonObject = new JSONObject();
                 try {
                     //myJsonObject에 key : answers, value에 String 형태의 jobValueResult 추가
-                    myJsonObject.put("answers", jobValueResult);
+                    myJsonObject.put("answer", jobValueResult);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -233,7 +238,7 @@ public class SurveyJobValueActivity extends AppCompatActivity {
 
             if (s == null) {
                 // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
-                Log.d("json","========================================================null");
+                Log.d("TAG","========================================================null");
                 Toast.makeText(getApplicationContext(),"정보가 잘못되었습니다.",Toast.LENGTH_SHORT).show();
 
             } else {
@@ -245,7 +250,9 @@ public class SurveyJobValueActivity extends AppCompatActivity {
                         // 데이터들을 추출하여 변수에 저장한다.
                         String resultURL;
                         resultURL = jsonObject.get("url").toString();
-                        Log.d("json","========================================================변수저장");
+                        Log.d("TAG","==============================STATUS 200===================");
+                        Log.d("TAG", "onPostExecute: url is  " + resultURL);
+
 
                         Intent intent = new Intent(SurveyJobValueActivity.this, SurveyResultActivity.class);
                         intent.putExtra("resultURL", resultURL);
