@@ -11,10 +11,12 @@ public class MbtiListViewAdapter extends BaseExpandableListAdapter {
     private Context context;
     private int titleLayout = 0;
     private int itemLayout = 0;
+    private String mbtiTitle;
     private String mbtiListItem;
     private LayoutInflater inflater = null;
 
-    public MbtiListViewAdapter(Context context, int titleLayout, int itemLayout, String mbtiListItem){
+    public MbtiListViewAdapter(Context context, int titleLayout, int itemLayout, String mbtiTitle, String mbtiListItem){
+        this.mbtiTitle = mbtiTitle;
         this.mbtiListItem = mbtiListItem;
         this.context = context;
         this.titleLayout = titleLayout;
@@ -62,6 +64,8 @@ public class MbtiListViewAdapter extends BaseExpandableListAdapter {
         if(convertView == null){
             convertView = inflater.inflate(this.titleLayout, parent, false);
         }
+        TextView mbtiTitleText = (TextView)convertView.findViewById(R.id.text_mbti_title);
+        mbtiTitleText.setText(mbtiTitle);
         return convertView;
     }
 

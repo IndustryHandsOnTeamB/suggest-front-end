@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="설문 결과"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textSize="30dp"
             android:textColor="@android:color/black"
             android:textStyle="bold"/>
@@ -58,6 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="23dp"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textColor="@android:color/black"
             android:text="메인 메뉴로 이동" />
     </LinearLayout>

@@ -4,17 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MenuSelect extends AppCompatActivity {
 
-    String userId, userName, userEmail, userType;
-    int userPK;
-
     Button lastResultButton;
     Button mbtiButton;
     Button testStartButton;
+
+    String userId, userName, userEmail, userType;
+    public static int userPk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MenuSelect extends AppCompatActivity {
         userName = intent.getStringExtra("userName");
         userEmail = intent.getStringExtra("userEmail");
         userType = intent.getStringExtra("userType");
-        userPK = intent.getIntExtra("userPK", 4444);
+        userPk = intent.getIntExtra("userPk",4444);
 
         lastResultButton = (Button)findViewById(R.id.last_result_button);
         mbtiButton = (Button)findViewById(R.id.mbti_button);
@@ -36,6 +37,11 @@ public class MenuSelect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PastResultActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userType", userType);
+                intent.putExtra("userPk", userPk);
                 startActivity(intent);
             }
         });
@@ -43,8 +49,9 @@ public class MenuSelect extends AppCompatActivity {
         mbtiButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MbtiActivity.class);
-                startActivity(intent);
+                Intent intent3 = new Intent(getApplicationContext(), MbtiActivity.class);
+                intent3.putExtra("userPk", userPk);
+                startActivity(intent3);
             }
         });
 
@@ -52,6 +59,11 @@ public class MenuSelect extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), StartNewSurveyActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userType", userType);
+                intent.putExtra("userPk", userPk);
                 startActivity(intent);
             }
         });

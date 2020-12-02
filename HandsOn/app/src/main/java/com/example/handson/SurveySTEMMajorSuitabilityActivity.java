@@ -15,6 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
@@ -44,20 +48,39 @@ public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
         surveyRecyclerView = surveyView.findViewById(R.id.recycler_view_survey);
         arrayListQuestion = new ArrayList<STEMRecyclerViewItem>();
 
-        // 임시로 질문 넣어둠
-        // 이후 백엔드와 통신 후 질문 리스트 받아야 함
-        arrayListQuestion.add(new STEMRecyclerViewItem("1"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("2"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("3"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("4"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("5"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("6"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("7"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("8"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("9"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("10"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("11"));
-        arrayListQuestion.add(new STEMRecyclerViewItem("12"));
+        Intent getIntent = getIntent();
+        String questionJson = getIntent.getStringExtra("jsonResult");
+        try {
+            JSONArray questionArray = new JSONArray(questionJson);
+            for(int idx =0;idx<questionArray.length();idx++){
+                JSONObject questionObject = new JSONObject(String.valueOf(questionArray.getJSONObject(idx)));
+                String question = questionObject.getString("question");
+
+                boolean isSlash = false;
+                for(int questionIndex = 0; questionIndex < question.length() - 1; questionIndex++){
+                    if(question.charAt(questionIndex) == '/' & question.charAt(questionIndex + 1) == '>'){
+                        StringBuffer questionBuffer = new StringBuffer();
+                        questionIndex += 2;
+
+                        while(questionIndex < question.length()){
+                            questionBuffer.append(question.charAt(questionIndex));
+                            questionIndex++;
+                        }
+                        arrayListQuestion.add(new STEMRecyclerViewItem(questionBuffer.toString()));
+                        Log.d("DB_TAG", questionBuffer.toString());
+                        isSlash = true;
+                        break;
+                    }
+                }
+
+                if(!isSlash){
+                    arrayListQuestion.add(new STEMRecyclerViewItem(question));
+                    Log.d("DB_TAG", question);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         if(arrayListQuestion.size() > 8) {
             currentQuestionNumber = 8;

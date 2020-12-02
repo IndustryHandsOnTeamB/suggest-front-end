@@ -1,20 +1,24 @@
 package com.example.handson;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Display;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class SurveyResultActivity extends AppCompatActivity {
 
@@ -23,8 +27,9 @@ public class SurveyResultActivity extends AppCompatActivity {
     TextView resultText2;
 
     ExpandableListView mbtiListView;
-    ArrayList<String> mbtiRecommendJob;
+    MbtiListViewAdapter mbtiListViewAdapter;
     String mbtiRecommendText = "";
+    String mbtiTitleText = "";
 
     /*
     설문 진행 후 결과창으로 넘어올 때 설문 타입을 넘겨받음
@@ -82,25 +87,12 @@ public class SurveyResultActivity extends AppCompatActivity {
         //resultText1.setText("");
         //resultText2.setText("");
 
-        // mbti 직업 리스트 GET
-        mbtiRecommendJob = new ArrayList<>();
+        MbtiListGetJSON mbtiJson = new MbtiListGetJSON();
+        mbtiJson.execute(String.valueOf(MenuSelect.userPk));
 
-        // 임시로 데이터 저장
-        mbtiRecommendJob.add("경영 컨설턴트");
-        mbtiRecommendJob.add("제약회사 연구원");
-        mbtiRecommendJob.add("분석가");
-        mbtiRecommendJob.add("회계사");
-        mbtiRecommendJob.add("시스템 개발");
+        mbtiTitleText = "나의 MBTI 추천 직업은?";
 
-        for(int idx = 0;idx < mbtiRecommendJob.size();idx++){
-            mbtiRecommendText += mbtiRecommendJob.get(idx);
-
-            if(idx < mbtiRecommendJob.size()-1){
-                mbtiRecommendText += ", ";
-            }
-        }
-
-        MbtiListViewAdapter mbtiListViewAdapter = new MbtiListViewAdapter(getApplicationContext(), R.layout.mbti_title_item, R.layout.mbti_job_list_item, mbtiRecommendText);
+        mbtiListViewAdapter = new MbtiListViewAdapter(getApplicationContext(), R.layout.mbti_title_item, R.layout.mbti_job_list_item, mbtiTitleText, mbtiRecommendText);
         mbtiListView.setAdapter(mbtiListViewAdapter);
 
         moveMainMenuButton.setOnClickListener(new View.OnClickListener() {
@@ -110,5 +102,68 @@ public class SurveyResultActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public void updateMbtiListView(){
+        mbtiListViewAdapter = new MbtiListViewAdapter(getApplicationContext(), R.layout.mbti_title_item, R.layout.mbti_job_list_item, mbtiTitleText, mbtiRecommendText);
+        mbtiListView.setAdapter(mbtiListViewAdapter);
+    }
+
+    public class MbtiListGetJSON extends AsyncTask<String, Void, String> {
+        private int statusCode;
+
+        public String doInBackground(String... params) {
+            String userPk = params[0];
+
+            try {
+                // 서버 api에 전송을 시도한다
+                String url = "http://15.165.18.48/api/v1/users/"+userPk+"/mbti/view";
+                URL obj = new URL(url);
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("GET");
+                // 데이터를 읽어올 것이고
+                conn.setDoInput(true);
+
+                // property 지정해주고
+                conn.setRequestProperty("accept", "application/json");
+
+                statusCode = conn.getResponseCode();
+
+                if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                    JSONObject result = new JSONObject(response.toString());
+                    mbtiTitleText = result.getString("mbti")+"의 추천 직업은?";
+                    mbtiRecommendText = result.getString("job");
+                    updateMbtiListView();
+                } else {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+                }
+            } catch (Exception e) {
+                Log.e("json", "ConnectionException");
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 }

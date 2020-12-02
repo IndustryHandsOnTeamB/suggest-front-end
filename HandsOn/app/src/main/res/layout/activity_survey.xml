@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/text_survey_type"
             android:text="설문 종류 이름"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             android:textSize="30dp"
@@ -54,6 +55,7 @@
                 android:text="1/10"
                 android:textSize="20dp"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/nanumsquare_acb"
                 android:gravity="center"/>
 
             <Button
@@ -61,8 +63,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/button_survey_next"
                 android:text="NEXT"
+                android:fontFamily="@font/nanumsquare_acb"
                 android:textSize="20dp"
-                android:textColor="@android:color/black"/>
+                style="@style/defaultButton"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

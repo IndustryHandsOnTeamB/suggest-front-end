@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ public class MbtiActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         myUserPk = intent.getIntExtra("userPk", 4444);
+        Log.d("intent","=================================Mbti에서 받은 userPk: "+myUserPk);
 
         eButton = (Button)findViewById(R.id.e_button);
         iButton = (Button)findViewById(R.id.i_button);
@@ -62,12 +64,12 @@ public class MbtiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String myMbti = getMbtiFromButtons();
-                Log.v("Tag","내 mbti: "+myMbti);
+                Log.d("Tag","내 mbti: "+myMbti);
 
                 MbtiJson signIn = new MbtiJson();
                 signIn.execute(myMbti);
-                //TO-DO : myMbti 서버에 저장
                 finish();
+
             }
         });
 
@@ -133,20 +135,20 @@ public class MbtiActivity extends AppCompatActivity {
     }
 
     void setButtonColor(Button btn1, Button btn2){
-        btn1.setBackground(getResources().getDrawable(R.drawable.mbti_button_pink));
-        btn2.setBackground(getResources().getDrawable(R.drawable.mbti_button_lightgray));
+        btn1.setBackground(getResources().getDrawable(R.drawable.button_lightblue));
+        btn2.setBackground(getResources().getDrawable(R.drawable.button_lightgray));
     }
 
     String getMbtiFromButtons(){
         String myMbti = "";
-        if(iBtnPressed) myMbti=myMbti.concat("i");
-        else  myMbti=myMbti.concat("e");
-        if(nBtnPressed) myMbti=myMbti.concat("n");
-        else  myMbti=myMbti.concat("s");
-        if(tBtnPressed) myMbti=myMbti.concat("t");
-        else  myMbti=myMbti.concat("f");
-        if(jBtnPressed) myMbti=myMbti.concat("j");
-        else  myMbti=myMbti.concat("p");
+        if(iBtnPressed) myMbti=myMbti.concat("I");
+        else  myMbti=myMbti.concat("E");
+        if(nBtnPressed) myMbti=myMbti.concat("N");
+        else  myMbti=myMbti.concat("S");
+        if(tBtnPressed) myMbti=myMbti.concat("T");
+        else  myMbti=myMbti.concat("F");
+        if(jBtnPressed) myMbti=myMbti.concat("J");
+        else  myMbti=myMbti.concat("P");
 
         return myMbti;
     }
@@ -157,18 +159,17 @@ public class MbtiActivity extends AppCompatActivity {
             String mbti = params[0];
 
             try {
-                // 로그인 시 입력한 정보를 Json object로 만들어서
+                //입력한 정보를 Json object로 만들어서
                 JSONObject myJsonObject = new JSONObject();
                 try {
-                    myJsonObject.put("list", "listlist");
-                    myJsonObject.put("type", mbti);
+                    myJsonObject.put("mbti", mbti);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 // 서버 api에 전송을 시도한다
                 URL obj = new URL("http://15.165.18.48/api/v1/users/"
-                        + String.valueOf(myUserPk) + "/mbti/");
+                        + String.valueOf(myUserPk) + "/mbti/save/");
 
                 HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
 
@@ -218,18 +219,21 @@ public class MbtiActivity extends AppCompatActivity {
 
             if (s == null) {
                 // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+                Log.d("mbti","-----------------------null from server---------------------");
             } else {
                 try {
                     // 수신한 data s에 대해
                     JSONObject jsonObject = new JSONObject(s);
 
-                    if(statusCode == 200){
+                    if(statusCode == 201){
                         // 데이터들을 추출하여 변수에 저장한다.
                         //myId = jsonObject.get("username").toString();
                         //myName = jsonObject.get("name").toString();
                         //myEmail = jsonObject.get("email").toString();
                         //int tempType = Integer.parseInt(jsonObject.get("user_type").toString());
                         Log.d("mbti","-----------------------mbtitype 등록---------------------");
+                        //Toast.makeText(getApplicationContext(), "내 MBTI 등록", Toast.LENGTH_SHORT).show();
+
 
                     }
 

@@ -12,6 +12,7 @@
         android:id="@+id/text_survey_job_interest_question"
         android:text="1. ~~"
         android:textSize="15dp"
+        android:fontFamily="@font/nanumsquare_acb"
         android:textColor="@android:color/black"
         android:layout_marginBottom="15dp"/>
 
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_survey_job_interest_answer0"
             android:text="매우 싫다"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textSize="15dp"
             android:background="@drawable/item_selector"
             android:layout_weight="1"/>
@@ -35,6 +37,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_survey_job_interest_answer1"
             android:text="약간 싫다"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textSize="15dp"
             android:background="@drawable/item_selector"
             android:layout_weight="1"/>
@@ -44,6 +47,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_survey_job_interest_answer2"
             android:text="약간 좋다"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textSize="15dp"
             android:background="@drawable/item_selector"
             android:layout_weight="1"/>
@@ -53,6 +57,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/button_survey_job_interest_answer3"
             android:text="매우 좋다"
+            android:fontFamily="@font/nanumsquare_acb"
             android:textSize="15dp"
             android:background="@drawable/item_selector"
             android:layout_weight="1"/>
