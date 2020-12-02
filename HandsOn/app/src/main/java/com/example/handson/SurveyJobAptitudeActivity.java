@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,21 +54,41 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
         nextButton = surveyView.findViewById(R.id.button_survey_next);
         surveyRecyclerView = surveyView.findViewById(R.id.recycler_view_survey);
         arrayListQuestion = new ArrayList<JobAptitudeRecyclerViewItem>();
+
+
+
+        Intent getIntent = getIntent();
+        String questionJson = getIntent.getStringExtra("jsonResult");
+
+        try {
+            JSONArray questionArray = new JSONArray(questionJson);
+            for(int idx =0;idx<questionArray.length();idx++){
+                JSONObject questionObject = new JSONObject(String.valueOf(questionArray.getJSONObject(idx)));
+                String question = questionObject.getString("question");
+                Log.d("DB_TAG", question);
+                arrayListQuestion.add(new JobAptitudeRecyclerViewItem(question));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
         Log.d("TAG", "onCreate: " + Integer.toString(arrayListQuestion.size()));
 
         //임시 input
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("1"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("2"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("3"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("4"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("5"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("6"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("7"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("8"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("9"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("10"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("11"));
-        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("12"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("1"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("2"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("3"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("4"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("5"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("6"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("7"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("8"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("9"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("10"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("11"));
+//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("12"));
         Log.d("TAG", "onCreate: " + Integer.toString(arrayListQuestion.size()));
 
 

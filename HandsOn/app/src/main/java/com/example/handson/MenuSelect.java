@@ -59,8 +59,15 @@ public class MenuSelect extends AppCompatActivity {
         testStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SurveyJobInterestActivity.class);
+                Intent intent = new Intent(getApplicationContext(), StartNewSurveyActivity.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userType", userType);
+                intent.putExtra("userPk", userPk);
                 startActivity(intent);
+//                Intent intent = new Intent(getApplicationContext(), SurveyJobInterestActivity.class);
+//                startActivity(intent);
             }
         });
 

@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -59,31 +60,48 @@ public class SurveyJobValueActivity extends AppCompatActivity {
         surveyRecyclerView = surveyView.findViewById(R.id.recycler_view_survey);
         arrayListQuestion = new ArrayList<JobValueRecyclerViewItem>();
 
+        Intent getIntent = getIntent();
+        String questionJson = getIntent.getStringExtra("jsonResult");
+
+        try {
+            JSONArray questionArray = new JSONArray(questionJson);
+            for(int idx =0;idx<questionArray.length();idx++){
+                JSONObject questionObject = new JSONObject(String.valueOf(questionArray.getJSONObject(idx)));
+                String q1 = questionObject.getString("answer01");
+                String q2 = questionObject.getString("answer02");
+                //String question = questionObject.getString("question");
+                //Log.d("DB_TAG", question);
+                arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{q1,q2}));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         //직업가치관 검사의 경우 받을 질문 ex) 1. 보수 / 자율성     2. 명예 / 보수
         //아래는 예시 input이며 실제로는 백엔드에서 받아와서 넣는 방식
         //예시 input
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"창의성", "안정성"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "창의성"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"안정성", "사회적인정"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"자기계발", "능력발휘"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"창의성", "안정성"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "창의성"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"안정성", "사회적인정"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"자기계발", "능력발휘"}));
+//
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"사회적인정", "보수"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"자율성", "사회적인정"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
+//
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "사회봉사"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
+//        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "사회봉사"}));
 
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"사회적인정", "보수"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"자율성", "사회적인정"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
-
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "사회봉사"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"능력발휘", "자율성"}));
-        arrayListQuestion.add(new JobValueRecyclerViewItem(new String[]{"보수", "사회봉사"}));
-
-        if(arrayListQuestion.size() > 7) {
-            currentQuestionNumber = 7;
+        if(arrayListQuestion.size() > 6) {
+            currentQuestionNumber = 6;
         } else{
             currentQuestionNumber = arrayListQuestion.size();
         }
-        totalPageNumber = arrayListQuestion.size()/7 + 1;
+        totalPageNumber = arrayListQuestion.size()/6 + 1;
 
         subArrayList = new ArrayList<>(arrayListQuestion.subList(0, currentQuestionNumber));
         recyclerViewAdapter = new JobValueRecyclerViewAdapter(subArrayList);
@@ -139,11 +157,11 @@ public class SurveyJobValueActivity extends AppCompatActivity {
                     }
                     else{
                         int lastQuestionNumber = currentQuestionNumber;
-                        if(currentQuestionNumber + 7 > arrayListQuestion.size()){
+                        if(currentQuestionNumber + 6 > arrayListQuestion.size()){
                             currentQuestionNumber = arrayListQuestion.size();
                         }
                         else{
-                            currentQuestionNumber += 7;
+                            currentQuestionNumber += 6;
                         }
 
                         subArrayList = new ArrayList<JobValueRecyclerViewItem>(arrayListQuestion.subList(lastQuestionNumber, currentQuestionNumber));
