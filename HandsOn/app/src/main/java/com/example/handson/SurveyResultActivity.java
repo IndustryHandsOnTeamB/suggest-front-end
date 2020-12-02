@@ -52,7 +52,6 @@ public class SurveyResultActivity extends AppCompatActivity {
         LinearLayout surveyResultLayout = (LinearLayout)findViewById(R.id.layout_survey_result_dynamic);
         ResultItem resultItem;
 
-
         Intent intent = getIntent();
         getURL = intent.getExtras().getString("resultURL");
 

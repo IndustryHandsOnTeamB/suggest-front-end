@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,20 +55,20 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
         surveyRecyclerView = surveyView.findViewById(R.id.recycler_view_survey);
         arrayListQuestion = new ArrayList<JobInterestRecyclerViewItem>();
 
-        // 임시로 질문 넣어둠
-        // 이후 백엔드와 통신 후 질문 리스트 받아야 함
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("1"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("2"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("3"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("4"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("5"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("6"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("7"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("8"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("9"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("10"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("11"));
-        arrayListQuestion.add(new JobInterestRecyclerViewItem("12"));
+        Intent getIntent = getIntent();
+        String questionJson = getIntent.getStringExtra("jsonResult");
+
+        try {
+            JSONArray questionArray = new JSONArray(questionJson);
+            for(int idx =0;idx<questionArray.length();idx++){
+                JSONObject questionObject = new JSONObject(String.valueOf(questionArray.getJSONObject(idx)));
+                String question = questionObject.getString("question");
+                Log.d("DB_TAG", question);
+                arrayListQuestion.add(new JobInterestRecyclerViewItem(question));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         if(arrayListQuestion.size() > 8) {
             currentQuestionNumber = 8;

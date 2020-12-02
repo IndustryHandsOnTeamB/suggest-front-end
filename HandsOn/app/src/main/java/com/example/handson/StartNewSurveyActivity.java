@@ -113,8 +113,14 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                         }
                         break;
                     case "이공계가치관검사":
-                        requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/se";
-                        getSurvey.execute(requestURL);
+
+                        if(userType.contentEquals("일반인")){
+                            requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/se";
+                            getSurvey.execute(requestURL);
+                        } else{
+                            requestURL = "http://";
+                            Toast.makeText(getApplicationContext(),"해당 검사는 일반용입니다.",Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     default:
                         Toast.makeText(getApplicationContext(),"처리 과정에서 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();
