@@ -40,7 +40,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10px"
-            android:background="#246391"
+            android:background="@color/mainColor"
             android:layout_marginLeft="25px"
             android:layout_marginRight="25px"
             android:layout_marginTop="25px"
@@ -74,7 +74,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10px"
-            android:background="#246391"
+            android:background="@color/mainColor"
             android:layout_marginLeft="25px"
             android:layout_marginRight="25px"
             android:layout_marginTop="25px"
@@ -107,7 +107,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10px"
-                android:background="#246391"
+                android:background="@color/mainColor"
                 android:layout_marginLeft="25px"
                 android:layout_marginRight="25px"
                 android:layout_marginTop="25px"/>
