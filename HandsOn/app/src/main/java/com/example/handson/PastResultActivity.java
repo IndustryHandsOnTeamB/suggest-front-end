@@ -212,8 +212,7 @@ public class PastResultActivity extends AppCompatActivity {
 
             try {
                 JSONObject resultJsonObject = new JSONObject(result_string);
-                String resultJsonString = resultJsonObject.getString("answer");
-                JSONArray resultJsonArray = new JSONArray(resultJsonString);
+                String resultJsonString = resultJsonObject.getString("result");
 
                 Log.d("###resultFromServer", resultJsonString);
 
@@ -258,6 +257,8 @@ public class PastResultActivity extends AppCompatActivity {
                 httpURLConnection.setReadTimeout(5000);
                 httpURLConnection.setConnectTimeout(5000);
                 httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Accept", "application/json");
+                httpURLConnection.setRequestProperty("Content-type", "application/json");
                 httpURLConnection.connect();
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
