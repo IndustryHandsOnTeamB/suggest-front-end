@@ -106,7 +106,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                 userType_spinner.setSelection(2);
                 break;
             default:
-
+                userType_spinner.setSelection(0);
                 break;
         }
         userType_spinner.setEnabled(false);
