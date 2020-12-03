@@ -44,7 +44,7 @@ public class PastResultActivity extends AppCompatActivity {
     Button tempBtn;
 
     private String userId, userName, userEmail, userType, surveyType, requestHistoryUrl, requestResultURL;
-    private int userPk;
+    private int userPk, surveyTypeInt;
 
     private String listviewSelectedUrl="";
 
@@ -63,7 +63,7 @@ public class PastResultActivity extends AppCompatActivity {
         userType = intent.getStringExtra("userType");
         userPk = intent.getIntExtra("userPk", 4444);
 
-        requestHistoryUrl = "http://15.165.18.48/api/v1/users/" + 3 + "/testhistory";
+        requestHistoryUrl = "http://15.165.18.48/api/v1/users/" + userPk + "/testhistory";
 
         listview_pastResult = (ListView) findViewById(R.id.listview_pastresult);
         listview_pastResult.setAdapter(adapter_pastResult);
@@ -74,6 +74,16 @@ public class PastResultActivity extends AppCompatActivity {
                 try {
                     listviewSelectedUrl = urlJsonArray.get(position).toString();
                     tempBtn.setEnabled(true);
+
+                    if(listviewSelectedUrl.contains("vocation")) {
+                        surveyTypeInt = 1;
+                    } else if (listviewSelectedUrl.contains("value")) {
+                        surveyTypeInt = 2;
+                    } else if (listviewSelectedUrl.contains("interest")) {
+                        surveyTypeInt = 0;
+                    } else {
+                        surveyTypeInt = 3;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -85,13 +95,9 @@ public class PastResultActivity extends AppCompatActivity {
         tempBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(PastResultActivity.this, StartNewSurveyActivity.class);
-//                intent.putExtra("userId", userId);
-//                intent.putExtra("userName", userName);
-//                intent.putExtra("userEmail", userEmail);
-//                intent.putExtra("userType", userType);
-//                intent.putExtra("userPk", userPk);
-//                startActivity(intent);
+                Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);
+                intent.putExtra("type", Integer.toString(surveyTypeInt));
+                startActivity(intent);
 
                 GetSurveyResultList getSurveyResultList = new GetSurveyResultList();
                 getSurveyResultList.execute(listviewSelectedUrl);
