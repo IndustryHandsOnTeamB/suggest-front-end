@@ -91,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="테스트 내용"
+                android:id="@+id/textview_startnewsurvey_info"
                 android:textSize="18dp"
                 android:fontFamily="@font/nanumsquare_acb"
                 android:layout_marginLeft="25px"/>

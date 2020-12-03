@@ -46,24 +46,22 @@ public class PastResult_listviewadapter extends BaseAdapter {
 
         TextView dateTextView = (TextView)convertView.findViewById(R.id.textview_layout_pastresult_date);
         TextView typeTextView = (TextView)convertView.findViewById(R.id.textview_layout_pastresult_type);
-        TextView resultTextView = (TextView)convertView.findViewById(R.id.textview_layout_pastresult_result);
-        resultTextView.setEllipsize(TextUtils.TruncateAt.END);
+
 
         PastResult_listview listviewItem = listviewItemList.get(position);
 
         dateTextView.setText(listviewItem.getDate());
         typeTextView.setText(listviewItem.getTestType());
-        resultTextView.setText(listviewItem.getResult());
 
         return convertView;
     }
 
-    public void addItem(String date, String testType, String result) {
-        PastResult_listview item = new PastResult_listview(date, testType, result);
+    public void addItem(String date, String testType, String url) {
+        PastResult_listview item = new PastResult_listview(date, testType, url);
 
         item.setDate(date);
         item.setTestType(testType);
-        item.setResult(result);
+        item.setUrl(url);
 
         listviewItemList.add(item);
     }

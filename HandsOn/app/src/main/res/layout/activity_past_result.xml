@@ -11,34 +11,85 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <WebView
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/webview_pastresult"></WebView>
+            android:layout_height="wrap_content"
+            android:text="기존 설문조사 결과"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:layout_marginTop="30px"></TextView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:layout_marginLeft="25px"
+            android:layout_marginTop="25px"
+            android:layout_marginRight="25px"
+            android:background="#246391"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="순번"
+                android:gravity="center"></TextView>
+
+            <View
+                android:layout_width="10px"
+                android:layout_height="match_parent"
+                android:background="#246391"></View>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="설문 타입"
+                android:gravity="center"></TextView>
+
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:layout_marginLeft="25px"
+            android:layout_marginRight="25px"
+            android:background="#246391"></View>
 
         <ListView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+            android:id="@+id/listview_pastresult"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="8"
             android:fontFamily="@font/nanumsquare_acb"
-        android:id="@+id/listview_pastresult">
+            android:listSelector="#52DC9B">
 
         </ListView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10px"
+            android:layout_marginLeft="25px"
+            android:layout_marginTop="25px"
+            android:layout_marginRight="25px"
+            android:background="#246391"></View>
+
 
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-            android:layout_weight="1"
-        android:id="@+id/temp"
+            android:id="@+id/temp"
             style="@style/defaultButton"
-            android:fontFamily="@font/nanumsquare_acb"
-        android:text="past_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:elevation="5dp"
-            android:layout_gravity="center"></Button>
+            android:fontFamily="@font/nanumsquare_acb"
+            android:text="자세히 보기"></Button>
 
-</LinearLayout>
-
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
