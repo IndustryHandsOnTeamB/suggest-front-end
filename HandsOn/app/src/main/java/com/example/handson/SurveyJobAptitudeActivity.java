@@ -43,6 +43,8 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
     int currentPageNumber = 1;
     int currentQuestionNumber;
 
+    Intent intent = new Intent(SurveyJobAptitudeActivity.this, SurveyResultActivity.class);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,22 +75,6 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
         }
 
 
-
-        Log.d("TAG", "onCreate: " + Integer.toString(arrayListQuestion.size()));
-
-        //임시 input
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("1"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("2"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("3"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("4"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("5"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("6"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("7"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("8"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("9"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("10"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("11"));
-//        arrayListQuestion.add(new JobAptitudeRecyclerViewItem("12"));
         Log.d("TAG", "onCreate: " + Integer.toString(arrayListQuestion.size()));
 
 
@@ -138,15 +124,12 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
                         Log.d("HS_TAG", "onClick: "+surveyResult);
 
 
-                       JobAptSurveyResultJson surveyResultJson = new JobAptSurveyResultJson();
+                        JobAptSurveyResultJson surveyResultJson = new JobAptSurveyResultJson();
 
-                       String test = "1=1 2=1 3=1 4=1 5=1 6=1 7=1 8=1 9=1 10=1 11=1 12=4 13=1 14=1 15=1 16=1 17=1 18=1 19=1 20=1 21=1 22=1 23=1 24=1 25=1 26=1 27=1 28=1 29=1 30=1 31=1 32=1 33=1 34=1 35=1 36=1 37=1 38=1 39=1 40=1 41=1 42=1 43=1 44=1 45=1 46=1 47=1 48=1 49=1 50=1 51=1 52=1 53=1 54=1 55=1 56=1 57=1 58=1 59=1 60=1 61=1 62=1 63=1 64=1 65=1 66=1";
-                       surveyResultJson.execute(test);
+                        String test = "1=1 2=1 3=1 4=1 5=1 6=1 7=1 8=1 9=1 10=1 11=1 12=4 13=1 14=1 15=1 16=1 17=1 18=1 19=1 20=1 21=1 22=1 23=1 24=1 25=1 26=1 27=1 28=1 29=1 30=1 31=1 32=1 33=1 34=1 35=1 36=1 37=1 38=1 39=1 40=1 41=1 42=1 43=1 44=1 45=1 46=1 47=1 48=1 49=1 50=1 51=1 52=1 53=1 54=1 55=1 56=1 57=1 58=1 59=1 60=1 61=1 62=1 63=1 64=1 65=1 66=1";
+                        //surveyResultJson.execute(test);
+                        surveyResultJson.execute(surveyResult);
 
-                       //Intent intent = new Intent(SurveyJobAptitudeActivity.this, SurveyResultActivity.class);
-                       //startActivity(intent);
-
-                      //finish();
                     }
                     else{
                         int lastQuestionNumber = currentQuestionNumber;
@@ -267,10 +250,13 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
                         Log.d("TAG","===============STATUS 200=========================================");
                         Log.d("TAG", "onPostExecute: url is  " + resultURL);
 
-                        Intent intent = new Intent(SurveyJobAptitudeActivity.this, SurveyResultActivity.class);
-                        intent.putExtra("resultURL", resultURL);
-                        startActivity(intent);
-                        finish();
+                        JobAptResultGetJson surveyURLjson = new JobAptResultGetJson();
+                        surveyURLjson.execute(resultURL);
+
+
+                        //intent.putExtra("resultURL", resultURL);
+                        //startActivity(intent);
+                        //finish();
 
                     }
 
@@ -280,6 +266,134 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+
+
+    //class for Crawling Result
+    public class JobAptResultGetJson extends AsyncTask<String, Void, String> {
+        private int statusCode;
+
+        public String doInBackground(String... params) {
+            String jobAptResultURL = params[0];
+            Log.d("HS", "========================================================json함수 들어옴");
+
+            try {
+                // answers result 정보를 Json object로 만들어서
+                JSONObject myJsonObject = new JSONObject();
+                try {
+                    //myJsonObject에 key : answers, value에 String 형태의 jobValueResult 추가
+                    myJsonObject.put("url", jobAptResultURL);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // 서버 api에 전송을 시도한다
+                URL obj = new URL("http://15.165.18.48/api/crawling/vocation");
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // property 지정해주고
+                conn.setRequestProperty("Accept-Charset", "UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // 전송을 해본다
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+                Log.d("json1", "========================================================json보냄");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                statusCode = conn.getResponseCode();
+                Log.d("json1", "========================================================스테이터스코드 받음");
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s == null) {
+                // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+                Log.d("json1", "========================================================null");
+                Toast.makeText(getApplicationContext(), "정보가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+
+            } else {
+                try {
+                    // 수신한 data s에 대해
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
+                        // 데이터들을 추출하여 변수에 저장한다.
+
+                        String resultString = jsonObject.get("result").toString();
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + resultString);
+                        resultString = resultString.substring(1, resultString.length()-1); // 앞뒤 { } 제거
+                        String result2 = resultString;
+
+                        String[] topAbilityArray =  resultString.split("\\],\"");
+                        String[] topJobsArray = result2.split("\\],\"");
+
+                        String[] mTopAbilityArray = topAbilityArray;
+                        mTopAbilityArray[0] = topAbilityArray[0].split(":")[0].replace("\"","");
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + mTopAbilityArray[0]);
+                        String job1 = topJobsArray[0].split(":")[1].substring(1);
+                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[0].split(":")[1].substring(1));
+
+
+                        topAbilityArray[1] = topAbilityArray[1].split(":")[0].replace("\"","");
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + topAbilityArray[1]);
+                        String job2 = topJobsArray[1].split(":")[1].substring(1);
+                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[1].split(":")[1].substring(1));
+
+                        //topJobsArray[1] =  result2.split("\\],\"")[1].split(":")[1].replace("\"","");
+                        //Log.d("HS", "JOB STRING ======" + topJobsArray[1]);
+
+                        topAbilityArray[2] = topAbilityArray[2].split(":")[0].replace("\"","");
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + topAbilityArray[2]);
+                        String job3 = topJobsArray[2].split(":")[1].substring(1);
+                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[2].split(":")[1].substring(1));
+
+                        String finalAbilityString = mTopAbilityArray[0] + " / " + mTopAbilityArray[1] + " / " + mTopAbilityArray[2];
+                        String finalJobString = job1 + "," + job2 + "," + job3;
+
+                        Log.d("HS", "onPostExecute: FINAL===> " + finalAbilityString);
+                        Log.d("HS", "onPostExecute: FINAL===> " + finalJobString);
+
+                        Intent intent = new Intent(SurveyJobAptitudeActivity.this, SurveyResultActivity.class);
+                        intent.putExtra("topAbility", finalAbilityString);
+                        intent.putExtra("topJobs", finalJobString);
+                        intent.putExtra("type", "1");
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("json1", e.getMessage());
+                }
+            }
+        }
     }
 
 
