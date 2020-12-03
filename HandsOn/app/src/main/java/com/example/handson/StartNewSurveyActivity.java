@@ -118,7 +118,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
             }
         });
       
-        textview = (TextView)findViewById(R.id.textview_startnewsurvey_info);
+//        textview = (TextView)findViewById(R.id.textview_startnewsurvey_info);
         contentsText = findViewById(R.id.text_test_contents);
 
         startBtn = (Button)findViewById(R.id.button_startnewsurvey_start);
@@ -132,11 +132,11 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                     case "직업적성검사":
                         if(userType.contentEquals("고등학생")) {
                             requestURL = "http://15.165.18.48/api/v1/users/"+userPk +"/question/high/aptitude";
-                            textview.setText("적성은 지금 현재 내가 잘하고 있거나 앞으로 발전할 가능성이 높은 능력을 뜻합니다.");
+//                            textview.setText("적성은 지금 현재 내가 잘하고 있거나 앞으로 발전할 가능성이 높은 능력을 뜻합니다.");
                             getSurvey.execute(requestURL);
                         } else if(userType.contentEquals("중학생")) {
                             requestURL = "http://15.165.18.48/api/v1/users/"+userPk +"/question/middle/aptitude";
-                            textview.setText("적성은 지금 현재 내가 잘하고 있거나 앞으로 발전할 가능성이 높은 능력을 뜻합니다.");
+//                            textview.setText("적성은 지금 현재 내가 잘하고 있거나 앞으로 발전할 가능성이 높은 능력을 뜻합니다.");
                             getSurvey.execute(requestURL);
                         } else {
                             requestURL = "http://";
@@ -145,21 +145,21 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                         break;
                     case "직업가치관검사":
                         requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/value";
-                        textview.setText("직업가치관검사는 여러분이 직업을 선택할 때 상대적으로 어떠한 가치를 중요하게 생각하는지를 알려줍니다. ");
+//                        textview.setText("직업가치관검사는 여러분이 직업을 선택할 때 상대적으로 어떠한 가치를 중요하게 생각하는지를 알려줍니다. ");
                         getSurvey.execute(requestURL);
                         break;
                     case "직업흥미검사":
                         if(userType.contentEquals("고등학생")) {
                             requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/high/interest";
-                            textview.setText("직업흥미검사는 중·고등학생들이 직업과 관련하여 자신의 흥미를 파악하고, 다양한 직업들 중에서 자신에게 적합한 직업을 탐색하는 데 도움을 주기 위해 개발된 검사입니다.");
+//                            textview.setText("직업흥미검사는 중·고등학생들이 직업과 관련하여 자신의 흥미를 파악하고, 다양한 직업들 중에서 자신에게 적합한 직업을 탐색하는 데 도움을 주기 위해 개발된 검사입니다.");
                             getSurvey.execute(requestURL);
                         } else if(userType.contentEquals("중학생")) {
                             requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/middle/interest";
-                            textview.setText("직업흥미검사는 중·고등학생들이 직업과 관련하여 자신의 흥미를 파악하고, 다양한 직업들 중에서 자신에게 적합한 직업을 탐색하는 데 도움을 주기 위해 개발된 검사입니다.");
+//                            textview.setText("직업흥미검사는 중·고등학생들이 직업과 관련하여 자신의 흥미를 파악하고, 다양한 직업들 중에서 자신에게 적합한 직업을 탐색하는 데 도움을 주기 위해 개발된 검사입니다.");
                             getSurvey.execute(requestURL);
                         } else {
                             requestURL = "http://";
-                            textview.setText("이공계전공적합도검사는 이공계 내의 전공을 선택하고자 할 때, 전공군별 상대적 적합도를 평가해 볼 수 있도록 도와 주기 위하여 개발된 검사 입니다.");
+//                            textview.setText("이공계전공적합도검사는 이공계 내의 전공을 선택하고자 할 때, 전공군별 상대적 적합도를 평가해 볼 수 있도록 도와 주기 위하여 개발된 검사 입니다.");
                             Toast.makeText(getApplicationContext(),"해당 검사는 중,고등학생용입니다.",Toast.LENGTH_SHORT).show();
                         }
                         break;
