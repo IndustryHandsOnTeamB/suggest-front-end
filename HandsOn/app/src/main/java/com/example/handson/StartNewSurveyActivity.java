@@ -28,6 +28,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
 
     private Spinner surveyType_spinner, userType_spinner;
     private Button startBtn, cancelBtn;
+    private TextView contentsText;
     private String surveyType, userType, requestURL;
     private String userId, userName, userEmail;
     private int userPk;
@@ -50,6 +51,44 @@ public class StartNewSurveyActivity extends AppCompatActivity {
         surveyType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?>  parent, View view, int position, long id) {
                 surveyType = surveyType_spinner.getSelectedItem().toString();
+                switch (position){
+                    case 0:
+                        String testContents1 ="문항별로 평소 생각이나 태도에 따라 ‘(나는) 매우 그렇다’ 싶으면 7점으로, ‘(나와) 전혀 다르다’면 1점으로 응답해주세요. 문항마다‘학생 자신에게 맞는’ 점수를 번호에 표시해주세요.\n" +
+                                "\n" +
+                                "검사 진행방법\n" +
+                                "예를 들어 '글을 잘 이해한다.' 의 문항이 있습니다.\n" +
+                                "만약 자신의 글 이해력이 매우 낮다고 생각할 때는 1점을, 매우 높다고 생각될 때는 7점에 답을 할 수 있습니다.\n" +
+                                "간단한 글은 조금 이해하지만 국어책의 내용이 잘 이해가 안 된다면 낮은 쪽부터 높은 쪽으로 2,3,4점 중의 하나에 답을 할 수 있습니다.";
+                        contentsText.setText(testContents1);
+                        break;
+                    case 1:
+                        String testContents2 ="직업과 관련된 두 개 가치 중에서 자기에게 더 중요한 가치에 표시하세요.\n" +
+                                "\n" +
+                                "검사 진행방법\n" +
+                                "만약 ‘능력발휘’ 보다 ‘자율성’ 이 더 중요하다면 ‘자율성’ 을 체크하세요.\n" +
+                                "반대로, ‘능력발휘’ 가 ‘ 자율성’ 보다 중요하다면 ‘능력발휘’ 에 체크하세요.";
+                        contentsText.setText(testContents2);
+                        break;
+                    case 2:
+                        String testContents3 ="검사지에는 문항을 읽고 다음 활동들을 얼마나 좋아하는지를 생각해보고 답하십시오.\n" +
+                                "\n" +
+                                "검사 진행방법\n" +
+                                "‘제과점에서 빵, 과자 만든다.’라는 예시문항에서\n" +
+                                "만약 여러분이 ‘제과점에서 빵, 과자를 만드는 것을 생각해보고\n" +
+                                "해당 행위가 매우 싫다면 ‘매우 싫다’, 약간 싫다면 ‘약간싫다’,\n" +
+                                "또는 빵, 과자를 만드는 행위가 좋다면 ‘약간좋다’, ‘매우좋다’로 응답할 수 있습니다.";
+                        contentsText.setText(testContents3);
+                        break;
+                    case 3:
+                        String testContents4 ="검사지에는 문항과 일치정도가 있습니다. 문항은 자신의 생각이나 행동에 대한 예시입니다.\n" +
+                                "\n" +
+                                "검사 진행방법\n" +
+                                "‘건축설계 – 개념구축 및 공간화 방법, 설계도 작성 및 모형 제작’ 라는 예시문항에서\n" +
+                                "제시된 교과를 공부하기 어려울 것 같고, 선호하지 않는다면, ‘못할것같다’ 또는 ‘전혀 못할것같다’ 를\n" +
+                                "잘 공부할 수 있고 좋아하는 교과라고 생각되면, ‘잘할것같다’ 또는 ‘매우 잘할것같다’ 에 답을 할 수 있습니다.";
+                        contentsText.setText(testContents4);
+                        break;
+                }
             }
             public void onNothingSelected(AdapterView<?>  parent) {
             }
@@ -78,8 +117,9 @@ public class StartNewSurveyActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?>  parent) {
             }
         });
-
+      
         textview = (TextView)findViewById(R.id.textview_startnewsurvey_info);
+        contentsText = findViewById(R.id.text_test_contents);
 
         startBtn = (Button)findViewById(R.id.button_startnewsurvey_start);
         startBtn.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +164,13 @@ public class StartNewSurveyActivity extends AppCompatActivity {
                         }
                         break;
                     case "이공계가치관검사":
-                        requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/se";
-                        getSurvey.execute(requestURL);
+                        if(userType.contentEquals("일반인")){
+                            requestURL = "http://15.165.18.48/api/v1/users/"+userPk+"/question/common/se";
+                            getSurvey.execute(requestURL);
+                        } else{
+                            requestURL = "http://";
+                            Toast.makeText(getApplicationContext(),"해당 검사는 일반용입니다.",Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     default:
                         Toast.makeText(getApplicationContext(),"처리 과정에서 오류가 발생했습니다.",Toast.LENGTH_SHORT).show();

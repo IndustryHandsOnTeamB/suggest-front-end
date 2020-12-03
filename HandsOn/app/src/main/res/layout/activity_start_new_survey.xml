@@ -23,6 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="테스트 종류"
+                android:textSize="18dp"
                 android:fontFamily="@font/nanumsquare_acb"
                 android:layout_marginLeft="25px"></TextView>
 
@@ -39,7 +40,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10px"
-            android:background="#246391"
+            android:background="@color/mainColor"
             android:layout_marginLeft="25px"
             android:layout_marginRight="25px"
             android:layout_marginTop="25px"
@@ -56,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="사용자 타입"
+                android:textSize="18dp"
                 android:fontFamily="@font/nanumsquare_acb"
                 android:layout_marginLeft="25px"></TextView>
 
@@ -72,7 +74,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="10px"
-            android:background="#246391"
+            android:background="@color/mainColor"
             android:layout_marginLeft="25px"
             android:layout_marginRight="25px"
             android:layout_marginTop="25px"
@@ -82,17 +84,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25px"
-            android:layout_weight="1"
-            android:gravity="center_vertical">
+            android:layout_weight="1">
 
             <TextView
+                android:id="@+id/text_test_contents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="테스트 내용"
                 android:id="@+id/textview_startnewsurvey_info"
+                android:textSize="18dp"
                 android:fontFamily="@font/nanumsquare_acb"
-                android:layout_marginLeft="25px"
-                android:gravity="center"></TextView>
+                android:layout_marginLeft="25px"/>
 
         </LinearLayout>
 
@@ -106,7 +108,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10px"
-                android:background="#246391"
+                android:background="@color/mainColor"
                 android:layout_marginLeft="25px"
                 android:layout_marginRight="25px"
                 android:layout_marginTop="25px"/>

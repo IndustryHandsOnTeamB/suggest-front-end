@@ -184,6 +184,7 @@ public class LogInActivity extends AppCompatActivity {
                         intent.putExtra("userEmail", myEmail);
                         intent.putExtra("userType", myType);
                         intent.putExtra("userPk", myUserPk);
+                        Log.d("TAG", "onPostExecute: usertype is" + myType);
 
                         startActivity(intent);
                         finish();

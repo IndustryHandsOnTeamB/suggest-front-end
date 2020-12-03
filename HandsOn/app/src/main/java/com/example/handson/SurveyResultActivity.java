@@ -23,6 +23,8 @@ import java.net.URL;
 public class SurveyResultActivity extends AppCompatActivity {
 
     Button moveMainMenuButton;
+    TextView resultTitleText1;
+    TextView resultTitleText2;
     TextView resultText1;
     TextView resultText2;
 
@@ -38,6 +40,7 @@ public class SurveyResultActivity extends AppCompatActivity {
     2 : 직업 가치관 검사
     3 : 이공계 적합도 검사
     */
+
     int surveyType = 2;
 
     @Override
@@ -47,45 +50,40 @@ public class SurveyResultActivity extends AppCompatActivity {
 
         moveMainMenuButton = findViewById(R.id.button_main_menu);
         mbtiListView = (ExpandableListView) findViewById(R.id.expandable_list_view_mbti_job);
+        resultTitleText1 = findViewById(R.id.text_result_title1);
+        resultTitleText2 = findViewById(R.id.text_result_title2);
+        resultText1 = findViewById(R.id.text_result1);
+        resultText2 = findViewById(R.id.text_result2);
 
-        LinearLayout surveyResultLayout = (LinearLayout)findViewById(R.id.layout_survey_result_dynamic);
-        ResultItem resultItem;
-
-        /*
-        Intent getIntent = getIntent();
-        surveyType = intent.getIntExtra("surveyType", 4444);
-        */
+        Intent intent = getIntent();
+        surveyType = Integer.parseInt(intent.getStringExtra("type"));
 
         switch (surveyType){
             case 0:
-                resultItem = new ResultJobInterestItem(this);
-                resultText1 = findViewById(R.id.text_job_interest_result1);
-                resultText2 = findViewById(R.id.text_job_interest_result2);
+                resultTitleText1.setText("가장 높은 흥미를 나타낸 분야");
+                resultTitleText2.setText("흥미 분야 추천 직업군");
+                resultText1.setText(intent.getStringExtra("jobType"));
+                resultText2.setText(intent.getStringExtra("jobList"));
                 break;
             case 1:
-                resultItem = new ResultJobAptitudeItem(this);
-                resultText1 = findViewById(R.id.text_job_apt_result1);
-                resultText2 = findViewById(R.id.text_job_apt_result2);
+                resultTitleText1.setText("가장 높은 적성 영역");
+                resultTitleText2.setText("추천 직업군");
+                resultText1.setText(intent.getStringExtra("topAbility"));
+                resultText2.setText(intent.getStringExtra("topJobs"));
                 break;
             case 2:
-                resultItem = new ResultJobValueItem(this);
-                resultText1 = findViewById(R.id.text_job_value_result1);
-                resultText2 = findViewById(R.id.text_job_value_result2);
+                resultTitleText1.setText("직업 가치관 결과");
+                resultTitleText2.setText("사용자의 가치관과 관련이 높은 직업");
+                resultText1.setText(intent.getStringExtra("topTwoVal"));
+                resultText2.setText(intent.getStringExtra("suitableJobs"));
                 break;
             case 3:
-                resultItem = new ResultSTEMItem(this);
-                resultText1 = findViewById(R.id.text_stem_result1);
-                resultText2 = findViewById(R.id.text_stem_result2);
+                resultTitleText1.setText("매우 적합 영역");
+                resultTitleText2.setText("적합 영역");
+                resultText1.setText(intent.getStringExtra("verySuitable"));
+                resultText2.setText(intent.getStringExtra("suitable"));
                 break;
-            default:
-                resultItem = new ResultItem(this);
         }
-
-        surveyResultLayout.addView(resultItem);
-
-        //결과 url에서 파싱한 결과 설정
-        //resultText1.setText("");
-        //resultText2.setText("");
 
         MbtiListGetJSON mbtiJson = new MbtiListGetJSON();
         mbtiJson.execute(String.valueOf(MenuSelect.userPk));
