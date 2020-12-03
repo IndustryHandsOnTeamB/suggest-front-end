@@ -3,12 +3,12 @@ package com.example.handson;
 public class PastResult_listview {
     private String date;
     private String testType;
-    private String result;
+    private String url;
 
-    public PastResult_listview(String date, String testType, String result) {
+    public PastResult_listview(String date, String testType, String url) {
         this.date = date;
         this.testType = testType;
-        this.result = result;
+        this.url=url;
     }
 
     //getter
@@ -20,8 +20,8 @@ public class PastResult_listview {
         return testType;
     }
 
-    public String getResult() {
-        return result;
+    public String getUrl() {
+        return url;
     }
 
     //setter
@@ -33,7 +33,7 @@ public class PastResult_listview {
         this.testType = testType;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
