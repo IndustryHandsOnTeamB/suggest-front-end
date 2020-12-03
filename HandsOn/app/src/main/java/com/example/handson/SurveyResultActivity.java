@@ -41,6 +41,8 @@ public class SurveyResultActivity extends AppCompatActivity {
 
     int surveyType = 2;
     String getURL;
+    String topTwoVal;
+    String suitableJobs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +59,12 @@ public class SurveyResultActivity extends AppCompatActivity {
 
         //결과 나오는 URL 주소
         getURL = intent.getExtras().getString("resultURL");
-        Log.d("TAG", "===========URL is     " + getURL);
+        Log.d("HS TAG", "===========URL is     " + getURL);
+
+        topTwoVal = intent.getExtras().getString("topTwoVal");
+        Log.d("HS TAG", "onCreate: + 받은 스트링=========== " + topTwoVal);
+        suitableJobs = intent.getExtras().getString("suitableJobs");
+        Log.d("HS TAG", "onCreate: + 받은 스트링===========" + suitableJobs);
 
         //vocation / interest / value / engineering 중 해당하는 string surveyTypeStr에 저장
         String surveyTypeStr = getURL.substring(getURL.lastIndexOf("psycho/") + 7);
@@ -84,6 +91,9 @@ public class SurveyResultActivity extends AppCompatActivity {
                 resultItem = new ResultJobValueItem(this);
                 resultText1 = findViewById(R.id.text_job_value_result1);
                 resultText2 = findViewById(R.id.text_job_value_result2);
+
+
+
                 break;
             case 3:
                 resultItem = new ResultSTEMItem(this);
