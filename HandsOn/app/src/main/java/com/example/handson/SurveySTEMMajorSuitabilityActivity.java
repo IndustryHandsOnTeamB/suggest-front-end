@@ -28,8 +28,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.example.handson.MenuSelect.userPk;
-
 public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
 
     TextView surveyType;
@@ -46,6 +44,7 @@ public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
     int currentQuestionNumber;
 
     String userId, userName, userEmail, userType;
+    int userPk;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

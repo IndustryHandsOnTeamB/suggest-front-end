@@ -332,7 +332,7 @@ public class PastResultActivity extends AppCompatActivity {
 
                         String finalAbilityString = mTopAbilityArray[0] + " / " + mTopAbilityArray[1] + " / " + mTopAbilityArray[2];
                         String finalJobString = job1 + "," + job2 + "," + job3;
-
+                        finalJobString = finalJobString.substring(0,finalJobString.length()-1).replace("\""," ");
                         Log.d("HS", "onPostExecute: FINAL===> " + finalAbilityString);
                         Log.d("HS", "onPostExecute: FINAL===> " + finalJobString);
 
@@ -445,6 +445,9 @@ public class PastResultActivity extends AppCompatActivity {
                             if(result.charAt(idx)=='1' | result.charAt(idx)=='2' | result.charAt(idx)=='3'){
                                 Log.d("json1", "========================================================job type 저장");
                                 idx += 2;
+                                if(result.charAt(idx)==' '){
+                                    idx++;
+                                }
                                 StringBuffer jobTypeBuffer = new StringBuffer();
                                 while(true){
                                     if(result.charAt(idx)=='"'){
@@ -453,7 +456,10 @@ public class PastResultActivity extends AppCompatActivity {
                                     }
                                     jobTypeBuffer.append(result.charAt(idx++));
                                 }
-                                jobType += jobTypeBuffer.toString();
+                                String jobResult = jobTypeBuffer.toString();
+                                jobResult = jobResult.replaceAll("\\\\","");
+                                jobResult += ", ";
+                                jobType += jobResult;
                             }
 
                             if(result.charAt(idx)=='['){
@@ -463,6 +469,9 @@ public class PastResultActivity extends AppCompatActivity {
                                 StringBuffer jobBuffer = new StringBuffer();
                                 int listSize = 0;
                                 while(true){
+                                    if(listSize>2){
+                                        break;
+                                    }
                                     if(result.charAt(idx)==']'){
                                         idx++;
                                         break;
@@ -471,20 +480,22 @@ public class PastResultActivity extends AppCompatActivity {
                                         idx++;
                                         continue;
                                     }
-                                    if(result.charAt(idx)==',')
+                                    if(result.charAt(idx)==',') {
                                         listSize++;
-                                    jobBuffer.append(result.charAt(idx++));
-                                    if(listSize>2){
-                                        break;
+                                        jobBuffer.append(", ");
+                                        idx++;
+                                        continue;
                                     }
+                                    jobBuffer.append(result.charAt(idx++));
                                 }
                                 jobList += jobBuffer.toString();
                             }
                         }
 
                         Log.d("json1", "========================================================변수저장");
+                        jobType = jobType.substring(0, jobType.length()-2);
                         Log.d("json1","type = "+ jobType);
-                        jobList = jobList.substring(0, jobList.length()-1);
+                        jobList = jobList.substring(0, jobList.length()-2);
                         Log.d("json1", "list = "+ jobList);
 
                         Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);

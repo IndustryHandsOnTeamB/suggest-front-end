@@ -113,6 +113,7 @@
             android:textSize="23dp"
             android:fontFamily="@font/nanumsquare_acb"
             android:textColor="@android:color/black"
+            android:background="@color/secondColor"
             android:text="메인 메뉴로 이동" />
     </LinearLayout>
 </RelativeLayout>

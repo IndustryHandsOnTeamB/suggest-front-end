@@ -14,9 +14,8 @@ public class MenuSelect extends AppCompatActivity {
     Button mbtiButton;
     Button testStartButton;
 
-    String userId, userName, userEmail;
-    public static String userType;
-    public static int userPk;
+    String userId, userName, userEmail, userType;
+    int userPk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

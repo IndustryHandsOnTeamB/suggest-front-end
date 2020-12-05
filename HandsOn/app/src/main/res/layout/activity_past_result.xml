@@ -67,7 +67,7 @@
             android:layout_height="0dp"
             android:layout_weight="8"
             android:fontFamily="@font/nanumsquare_acb"
-            android:listSelector="#52DC9B">
+            android:listSelector="@color/secondColor">
 
         </ListView>
 

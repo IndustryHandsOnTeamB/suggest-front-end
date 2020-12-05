@@ -20,7 +20,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static com.example.handson.MenuSelect.userPk;
 import static com.example.handson.PastResultActivity.pastResultActivity;
 public class SurveyResultActivity extends AppCompatActivity {
 
@@ -36,6 +35,7 @@ public class SurveyResultActivity extends AppCompatActivity {
     String mbtiTitleText = "";
 
     String userId, userName, userEmail, userType;
+    int userPk;
 
     /*
     설문 진행 후 결과창으로 넘어올 때 설문 타입을 넘겨받음
@@ -96,7 +96,7 @@ public class SurveyResultActivity extends AppCompatActivity {
         }
 
         MbtiListGetJSON mbtiJson = new MbtiListGetJSON();
-        mbtiJson.execute(String.valueOf(MenuSelect.userPk));
+        mbtiJson.execute(String.valueOf(userPk));
 
         mbtiTitleText = "나의 MBTI 추천 직업은?";
 

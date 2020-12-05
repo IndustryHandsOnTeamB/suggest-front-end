@@ -25,9 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.example.handson.MenuSelect.userPk;
-import static com.example.handson.MenuSelect.userType;
-
 public class SurveyJobInterestActivity extends AppCompatActivity {
 
     TextView surveyType;
@@ -42,7 +39,8 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
     int totalPageNumber;
     int currentPageNumber = 1;
     int currentQuestionNumber;
-    String userId, userName, userEmail;
+    String userId, userName, userEmail, userType;
+    int userPk;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +68,7 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
             for(int idx =0;idx<questionArray.length();idx++){
                 JSONObject questionObject = new JSONObject(String.valueOf(questionArray.getJSONObject(idx)));
                 String question = questionObject.getString("question");
+                question = question.replace("<br/>"," ");
                 Log.d("DB_TAG", question);
                 arrayListQuestion.add(new JobInterestRecyclerViewItem(question));
             }
@@ -335,6 +334,9 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
                             if(result.charAt(idx)=='1' | result.charAt(idx)=='2' | result.charAt(idx)=='3'){
                                 Log.d("json1", "========================================================job type 저장");
                                 idx += 2;
+                                if(result.charAt(idx)==' '){
+                                    idx++;
+                                }
                                 StringBuffer jobTypeBuffer = new StringBuffer();
                                 while(true){
                                     if(result.charAt(idx)=='"'){
@@ -343,7 +345,10 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
                                     }
                                     jobTypeBuffer.append(result.charAt(idx++));
                                 }
-                                jobType += jobTypeBuffer.toString();
+                                String jobResult = jobTypeBuffer.toString();
+                                jobResult = jobResult.replaceAll("\\\\","");
+                                jobResult += ", ";
+                                jobType += jobResult;
                             }
 
                             if(result.charAt(idx)=='['){
@@ -353,6 +358,9 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
                                 StringBuffer jobBuffer = new StringBuffer();
                                 int listSize = 0;
                                 while(true){
+                                    if(listSize>2){
+                                        break;
+                                    }
                                     if(result.charAt(idx)==']'){
                                         idx++;
                                         break;
@@ -361,20 +369,22 @@ public class SurveyJobInterestActivity extends AppCompatActivity {
                                         idx++;
                                         continue;
                                     }
-                                    if(result.charAt(idx)==',')
+                                    if(result.charAt(idx)==',') {
                                         listSize++;
-                                    jobBuffer.append(result.charAt(idx++));
-                                    if(listSize>2){
-                                        break;
+                                        jobBuffer.append(", ");
+                                        idx++;
+                                        continue;
                                     }
+                                    jobBuffer.append(result.charAt(idx++));
                                 }
                                 jobList += jobBuffer.toString();
                             }
                         }
 
                         Log.d("json1", "========================================================변수저장");
+                        jobType = jobType.substring(0, jobType.length()-2);
                         Log.d("json1","type = "+ jobType);
-                        jobList = jobList.substring(0, jobList.length()-1);
+                        jobList = jobList.substring(0, jobList.length()-2);
                         Log.d("json1", "list = "+ jobList);
 
                         Intent intent = new Intent(SurveyJobInterestActivity.this, SurveyResultActivity.class);

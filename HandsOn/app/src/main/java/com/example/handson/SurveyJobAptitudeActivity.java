@@ -25,9 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.example.handson.MenuSelect.userPk;
-import static com.example.handson.MenuSelect.userType;
-
 public class SurveyJobAptitudeActivity extends AppCompatActivity {
 
     TextView surveyType;
@@ -42,9 +39,8 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
     int totalPageNumber;
     int currentPageNumber = 1;
     int currentQuestionNumber;
-    String userId, userName, userEmail;
-
-    Intent intent = new Intent(SurveyJobAptitudeActivity.this, SurveyResultActivity.class);
+    String userId, userName, userEmail, userType;
+    int userPk;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,8 +53,6 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
         nextButton = surveyView.findViewById(R.id.button_survey_next);
         surveyRecyclerView = surveyView.findViewById(R.id.recycler_view_survey);
         arrayListQuestion = new ArrayList<JobAptitudeRecyclerViewItem>();
-
-
 
         Intent getIntent = getIntent();
         String questionJson = getIntent.getStringExtra("jsonResult");
@@ -90,7 +84,7 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
         } else{
             currentQuestionNumber = arrayListQuestion.size();
         }
-        totalPageNumber = arrayListQuestion.size()/8 + 1;
+        totalPageNumber = arrayListQuestion.size()/8;
 
         subArrayList = new ArrayList<>(arrayListQuestion.subList(0, currentQuestionNumber));
         recyclerViewAdapter = new JobAptitudeRecyclerViewAdapter(subArrayList);
@@ -275,8 +269,6 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
 
     }
 
-
-
     //class for Crawling Result
     public class JobAptResultGetJson extends AsyncTask<String, Void, String> {
         private int statusCode;
@@ -384,7 +376,7 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
 
                         String finalAbilityString = mTopAbilityArray[0] + " / " + mTopAbilityArray[1] + " / " + mTopAbilityArray[2];
                         String finalJobString = job1 + "," + job2 + "," + job3;
-
+                        finalJobString = finalJobString.substring(0,finalJobString.length()-1).replace("\""," ");
                         Log.d("HS", "onPostExecute: FINAL===> " + finalAbilityString);
                         Log.d("HS", "onPostExecute: FINAL===> " + finalJobString);
 

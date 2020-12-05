@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +32,7 @@ public class MbtiActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.avtivity_set_mbti);
+        setContentView(R.layout.activity_set_mbti);
 
         Intent intent = getIntent();
         myUserPk = intent.getIntExtra("userPk", 4444);

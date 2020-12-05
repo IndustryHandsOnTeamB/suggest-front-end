@@ -26,12 +26,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.example.handson.MenuSelect.userPk;
-
 public class SurveyJobValueActivity extends AppCompatActivity {
 
-    //int userPk;
-    //String userType;
+    int userPk;
 
     TextView surveyType;
     TextView textPageNumber;
@@ -131,8 +128,6 @@ public class SurveyJobValueActivity extends AppCompatActivity {
 
                         //Intent intent = new Intent(SurveyJobValueActivity.this, SurveyResultActivity.class);
 
-
-
                         // 결과 string으로 post method로 보내기
                         SurveyResultJson surveyResultJson = new SurveyResultJson();
 
@@ -190,7 +185,6 @@ public class SurveyJobValueActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
                 // 서버 api에 전송을 시도한다
 
@@ -278,7 +272,6 @@ public class SurveyJobValueActivity extends AppCompatActivity {
             }
         }
     }
-
 
     //class for Crawling Result
     public class JobValueResultGetJson extends AsyncTask<String, Void, String> {
