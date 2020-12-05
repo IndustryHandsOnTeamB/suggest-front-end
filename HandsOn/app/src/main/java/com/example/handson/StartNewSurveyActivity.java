@@ -1,7 +1,5 @@
 package com.example.handson;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,13 +12,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -45,7 +44,7 @@ public class StartNewSurveyActivity extends AppCompatActivity {
         userName = intent.getStringExtra("userName");
         userEmail = intent.getStringExtra("userEmail");
         userType = intent.getStringExtra("userType");
-        userPk = intent.getIntExtra("userPk",4444);
+        userPk = intent.getIntExtra("userPk", 4444);
 
         surveyType_spinner = (Spinner)findViewById(R.id.spinner_startnewsurvey_testtype);
         surveyType_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

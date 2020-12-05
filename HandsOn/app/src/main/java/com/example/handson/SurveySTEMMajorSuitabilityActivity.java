@@ -45,6 +45,8 @@ public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
     int currentPageNumber = 1;
     int currentQuestionNumber;
 
+    String userId, userName, userEmail, userType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,12 @@ public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
         String questionJson = getIntent.getStringExtra("jsonResult");
+
+        userId = getIntent.getStringExtra("userId");
+        userName = getIntent.getStringExtra("userName");
+        userEmail = getIntent.getStringExtra("userEmail");
+        userType = getIntent.getStringExtra("userType");
+        userPk = getIntent.getIntExtra("userPk", 4444);
         try {
             JSONArray questionArray = new JSONArray(questionJson);
             for(int idx =0;idx<questionArray.length();idx++){
@@ -340,6 +348,11 @@ public class SurveySTEMMajorSuitabilityActivity extends AppCompatActivity {
                         intent.putExtra("verySuitable", verySuitable);
                         intent.putExtra("suitable", suitable);
                         intent.putExtra("type", "3");
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("userEmail", userEmail);
+                        intent.putExtra("userType", userType);
+                        intent.putExtra("userPk", userPk);
                         startActivity(intent);
                         finish();
                     }

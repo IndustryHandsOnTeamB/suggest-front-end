@@ -1,33 +1,24 @@
 package com.example.handson;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Application;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.jsoup.*;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -37,24 +28,27 @@ import java.util.ArrayList;
 
 public class PastResultActivity extends AppCompatActivity {
 
-    public static ListView listview_pastResult;
+    public static PastResultActivity pastResultActivity;
+
+    public ListView listview_pastResult;
     ArrayList<PastResult_listview> arrayList = new ArrayList<>();
     PastResult_listviewadapter adapter_pastResult = new PastResult_listviewadapter(arrayList, this);
 
     Button tempBtn;
 
-    private String userId, userName, userEmail, userType, surveyType, requestHistoryUrl, requestResultURL;
+    private String userId, userName, userEmail, userType, surveyType, requestHistoryUrl;
     private int userPk, surveyTypeInt;
 
     private String listviewSelectedUrl="";
 
     JSONArray urlJsonArray;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_past_result);
+
+        pastResultActivity = PastResultActivity.this;
 
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
@@ -62,6 +56,8 @@ public class PastResultActivity extends AppCompatActivity {
         userEmail = intent.getStringExtra("userEmail");
         userType = intent.getStringExtra("userType");
         userPk = intent.getIntExtra("userPk", 4444);
+
+        Log.d("###userPk", Integer.toString(userPk));
 
         requestHistoryUrl = "http://15.165.18.48/api/v1/users/" + userPk + "/testhistory";
 
@@ -97,10 +93,37 @@ public class PastResultActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);
                 intent.putExtra("type", Integer.toString(surveyTypeInt));
-                startActivity(intent);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userType", userType);
+                intent.putExtra("userPk", userPk);
 
-                GetSurveyResultList getSurveyResultList = new GetSurveyResultList();
-                getSurveyResultList.execute(listviewSelectedUrl);
+                switch (surveyTypeInt) {
+                    case 1:
+                        JobAptResultGetJson jobAptResultGetJson = new JobAptResultGetJson();
+                        jobAptResultGetJson.execute(listviewSelectedUrl);
+                        break;
+
+                    case 2:
+                        JobValueResultGetJson jobValueResultGetJson = new JobValueResultGetJson();
+                        jobValueResultGetJson.execute(listviewSelectedUrl);
+                        break;
+
+                    case 3:
+                        STEMResultGetJson stemResultGetJson = new STEMResultGetJson();
+                        stemResultGetJson.execute(listviewSelectedUrl);
+                        break;
+
+                    case 0:
+                        JobInteresetResultGetJson jobInteresetResultGetJson = new JobInteresetResultGetJson();
+                        jobInteresetResultGetJson.execute(listviewSelectedUrl);
+
+                    default:
+
+                        break;
+                }
+
             }
         });
 
@@ -203,103 +226,509 @@ public class PastResultActivity extends AppCompatActivity {
         }
     }
 
-    class GetSurveyResultList extends AsyncTask<String, Void, String> {
+    class JobAptResultGetJson extends AsyncTask<String, Void, String> {
+        private int statusCode;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            String result_string = result;
+        public String doInBackground(String... params) {
+            String jobAptResultURL = params[0];
+            Log.d("HS", "========================================================json함수 들어옴");
 
             try {
-                JSONObject resultJsonObject = new JSONObject(result_string);
-                String resultJsonString = resultJsonObject.getString("result");
+                // answers result 정보를 Json object로 만들어서
+                JSONObject myJsonObject = new JSONObject();
+                try {
+                    //myJsonObject에 key : answers, value에 String 형태의 jobValueResult 추가
+                    myJsonObject.put("url", jobAptResultURL);
 
-                Log.d("###resultFromServer", resultJsonString);
-
-                //받은 JSON parsing
-                
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String historyURL = (String) params[0];
-            Log.d("###historyUrl", historyURL);
-            String serverURL = "";
-
-            if(historyURL.contains("vocation")) {
-                serverURL = "http://15.165.18.48/api/crawling/vocation";
-            } else if (historyURL.contains("value")) {
-                serverURL = "http://15.165.18.48/api/crawling/value";
-            } else if (historyURL.contains("interest")) {
-                serverURL = "http://15.165.18.48/api/crawling/interest";
-            } else {
-                serverURL = "http://15.165.18.48/api/crawling/engineering";
-            }
-
-            Log.d("###serverUrl", serverURL);
-
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("url", historyURL);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.d("###jsonObject", jsonObject.toString());
-
-            try {
-                URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Accept", "application/json");
-                httpURLConnection.setRequestProperty("Content-type", "application/json");
-                httpURLConnection.connect();
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(jsonObject.toString().getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d("###PastResultActivity", "POST response code - " + responseStatusCode);
-
-                InputStream inputStream;
-                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                } else {
-                    inputStream = httpURLConnection.getErrorStream();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                // 서버 api에 전송을 시도한다
+                URL obj = new URL("http://15.165.18.48/api/crawling/vocation");
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
 
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // property 지정해주고
+                conn.setRequestProperty("Accept-Charset", "UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // 전송을 해본다
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+                Log.d("json1", "========================================================json보냄");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
                 StringBuilder sb = new StringBuilder();
-                String line = null;
 
-                while ((line = bufferedReader.readLine()) != null) {
+                statusCode = conn.getResponseCode();
+                Log.d("json1", "========================================================스테이터스코드 받음");
+
+                while ((line = reader.readLine()) != null) {
                     sb.append(line);
                 }
 
-                bufferedReader.close();
-
+                reader.close();
                 return sb.toString();
-            } catch (Exception e) {
-                Log.d("###PastResultActivity", "doInBackGround error ", e);
-                return new String("ERROR: " + e.getMessage());
-            }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s == null) {
+                // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+                Log.d("json1", "========================================================null");
+                Toast.makeText(getApplicationContext(), "정보가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+
+            } else {
+                try {
+                    // 수신한 data s에 대해
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
+                        // 데이터들을 추출하여 변수에 저장한다.
+
+                        String resultString = jsonObject.get("result").toString();
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + resultString);
+                        resultString = resultString.substring(1, resultString.length()-1); // 앞뒤 { } 제거
+                        String result2 = resultString;
+
+                        String[] topAbilityArray =  resultString.split("\\],\"");
+                        String[] topJobsArray = result2.split("\\],\"");
+
+                        String[] mTopAbilityArray = topAbilityArray;
+                        mTopAbilityArray[0] = topAbilityArray[0].split(":")[0].replace("\"","");
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + mTopAbilityArray[0]);
+                        String job1 = topJobsArray[0].split(":")[1].substring(1);
+                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[0].split(":")[1].substring(1));
+
+
+                        topAbilityArray[1] = topAbilityArray[1].split(":")[0].replace("\"","");
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + topAbilityArray[1]);
+                        String job2 = topJobsArray[1].split(":")[1].substring(1);
+                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[1].split(":")[1].substring(1));
+
+                        //topJobsArray[1] =  result2.split("\\],\"")[1].split(":")[1].replace("\"","");
+                        //Log.d("HS", "JOB STRING ======" + topJobsArray[1]);
+
+                        topAbilityArray[2] = topAbilityArray[2].split(":")[0].replace("\"","");
+                        Log.d("HS", "onPostExecute: RESULT STRING ======" + topAbilityArray[2]);
+                        String job3 = topJobsArray[2].split(":")[1].substring(1);
+                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[2].split(":")[1].substring(1));
+
+                        String finalAbilityString = mTopAbilityArray[0] + " / " + mTopAbilityArray[1] + " / " + mTopAbilityArray[2];
+                        String finalJobString = job1 + "," + job2 + "," + job3;
+
+                        Log.d("HS", "onPostExecute: FINAL===> " + finalAbilityString);
+                        Log.d("HS", "onPostExecute: FINAL===> " + finalJobString);
+
+                        Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);
+                        intent.putExtra("topAbility", finalAbilityString);
+                        intent.putExtra("topJobs", finalJobString);
+                        intent.putExtra("type", "1");
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("userEmail", userEmail);
+                        intent.putExtra("userType", userType);
+                        intent.putExtra("userPk", userPk);
+                        startActivity(intent);
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("json1", e.getMessage());
+                }
+            }
+        }
+    }
+
+    class JobInteresetResultGetJson extends AsyncTask<String, Void, String> {
+        private int statusCode;
+
+        public String doInBackground(String... params) {
+            String stemSurveyResultURL = params[0];
+            Log.d("json1", "========================================================json함수 들어옴");
+
+            try {
+                // answers result 정보를 Json object로 만들어서
+                JSONObject myJsonObject = new JSONObject();
+                try {
+                    //myJsonObject에 key : answers, value에 String 형태의 jobValueResult 추가
+                    myJsonObject.put("url", stemSurveyResultURL);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // 서버 api에 전송을 시도한다
+                URL obj = new URL("http://15.165.18.48/api/crawling/interest");
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                // 데이터를 읽어올 것이고
+                conn.setDoInput(true);
+                // 데이터를 쓸 것이다.
+                conn.setDoOutput(true);
+
+                // property 지정해주고
+                conn.setRequestProperty("Accept-Charset", "UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // 전송을 해본다
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+                Log.d("json1", "========================================================json보냄");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                statusCode = conn.getResponseCode();
+                Log.d("json1", "========================================================스테이터스코드 받음");
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s == null) {
+                // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+                Log.d("json1", "========================================================null");
+                Toast.makeText(getApplicationContext(), "정보가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+
+            } else {
+                try {
+                    // 수신한 data s에 대해
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
+                        // 데이터들을 추출하여 변수에 저장한다.
+                        JSONObject resultObject = jsonObject.getJSONObject("result");
+
+                        String result = resultObject.toString();
+                        Log.d("json1",result);
+
+                        String jobType = new String();
+                        String jobList = new String();
+
+                        for(int idx = 0; idx <result.length(); idx++){
+                            if(result.charAt(idx)=='1' | result.charAt(idx)=='2' | result.charAt(idx)=='3'){
+                                Log.d("json1", "========================================================job type 저장");
+                                idx += 2;
+                                StringBuffer jobTypeBuffer = new StringBuffer();
+                                while(true){
+                                    if(result.charAt(idx)=='"'){
+                                        idx++;
+                                        break;
+                                    }
+                                    jobTypeBuffer.append(result.charAt(idx++));
+                                }
+                                jobType += jobTypeBuffer.toString();
+                            }
+
+                            if(result.charAt(idx)=='['){
+                                idx++;
+
+                                Log.d("json1", "========================================================job list 저장");
+                                StringBuffer jobBuffer = new StringBuffer();
+                                int listSize = 0;
+                                while(true){
+                                    if(result.charAt(idx)==']'){
+                                        idx++;
+                                        break;
+                                    }
+                                    if(result.charAt(idx)=='"'){
+                                        idx++;
+                                        continue;
+                                    }
+                                    if(result.charAt(idx)==',')
+                                        listSize++;
+                                    jobBuffer.append(result.charAt(idx++));
+                                    if(listSize>2){
+                                        break;
+                                    }
+                                }
+                                jobList += jobBuffer.toString();
+                            }
+                        }
+
+                        Log.d("json1", "========================================================변수저장");
+                        Log.d("json1","type = "+ jobType);
+                        jobList = jobList.substring(0, jobList.length()-1);
+                        Log.d("json1", "list = "+ jobList);
+
+                        Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);
+                        intent.putExtra("type", "0");
+                        intent.putExtra("jobType", jobType);
+                        intent.putExtra("jobList", jobList);
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("userEmail", userEmail);
+                        intent.putExtra("userType", userType);
+                        intent.putExtra("userPk", userPk);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("json1", e.getMessage());
+                }
+            }
+        }
+    }
+
+    class JobValueResultGetJson extends AsyncTask<String, Void, String> {
+        private int statusCode;
+
+        public String doInBackground(String... params) {
+            String jobValueResultURL = params[0];
+            Log.d("HS", "========================================================json함수 들어옴");
+
+            try {
+                // answers result 정보를 Json object로 만들어서
+                JSONObject myJsonObject = new JSONObject();
+                try {
+                    //myJsonObject에 key : answers, value에 String 형태의 jobValueResult 추가
+                    myJsonObject.put("url", jobValueResultURL);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // 서버 api에 전송을 시도한다
+                URL obj = new URL("http://15.165.18.48/api/crawling/value");
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // property 지정해주고
+                conn.setRequestProperty("Accept-Charset", "UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // 전송을 해본다
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+                Log.d("json1", "========================================================json보냄");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                statusCode = conn.getResponseCode();
+                Log.d("json1", "========================================================스테이터스코드 받음");
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s == null) {
+                // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+                Log.d("json1", "========================================================null");
+                Toast.makeText(getApplicationContext(), "정보가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+
+            } else {
+                try {
+                    // 수신한 data s에 대해
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
+                        // 데이터들을 추출하여 변수에 저장한다.
+
+                        JSONObject resultObject= jsonObject.getJSONObject("result");
+                        Log.d("HS", "========##########=========== result받음");
+                        String topTwoVal = resultObject.getString("value");
+                        Log.d("HS", "========##########=========== top Two 받음");
+                        String finaltopTwoVal = topTwoVal.substring(1, topTwoVal.length()-1);
+                        finaltopTwoVal = finaltopTwoVal.replace("\"","");
+                        finaltopTwoVal = finaltopTwoVal.replace(",",", ");
+
+
+                        String suitableJobs = resultObject.getString("jobs");
+                        String finalsuitableJobs = suitableJobs.substring(9);
+                        finalsuitableJobs = finalsuitableJobs.split("]")[0];
+                        finalsuitableJobs = finalsuitableJobs.replace("\"","");
+                        finalsuitableJobs = finalsuitableJobs.replace(",",", ");
+
+
+                        Log.d("HS", "=============================================##########=========== 결과변수 변수저장");
+                        Log.d("HS - final topTwoval is ", finaltopTwoVal);
+                        Log.d("HS- suitable jobs are ", finalsuitableJobs);
+
+
+                        Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);
+                        intent.putExtra("topTwoVal", finaltopTwoVal);
+                        intent.putExtra("suitableJobs", finalsuitableJobs);
+                        intent.putExtra("type", "2");
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("userEmail", userEmail);
+                        intent.putExtra("userType", userType);
+                        intent.putExtra("userPk", userPk);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("json1", e.getMessage());
+                }
+            }
+        }
+    }
+
+    class STEMResultGetJson extends AsyncTask<String, Void, String> {
+        private int statusCode;
+
+        public String doInBackground(String... params) {
+            String stemSurveyResultURL = params[0];
+            Log.d("json1", "========================================================json함수 들어옴");
+
+            try {
+                // answers result 정보를 Json object로 만들어서
+                JSONObject myJsonObject = new JSONObject();
+                try {
+                    //myJsonObject에 key : answers, value에 String 형태의 jobValueResult 추가
+                    myJsonObject.put("url", stemSurveyResultURL);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                // 서버 api에 전송을 시도한다
+                URL obj = new URL("http://15.165.18.48/api/crawling/engineering");
+
+                HttpURLConnection conn = (HttpURLConnection) obj.openConnection(); // open connection
+
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                // 데이터를 읽어올 것이고
+                conn.setDoInput(true);
+                // 데이터를 쓸 것이다.
+                conn.setDoOutput(true);
+
+                // property 지정해주고
+                conn.setRequestProperty("Accept-Charset", "UTF-8");
+                conn.setRequestProperty("Content-Type", "application/json");
+
+                // 전송을 해본다
+                OutputStream os = conn.getOutputStream();
+                os.write(myJsonObject.toString().getBytes());
+                os.flush();
+                os.close();
+                Log.d("json1", "========================================================json보냄");
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+
+                String line;
+                StringBuilder sb = new StringBuilder();
+
+                statusCode = conn.getResponseCode();
+                Log.d("json1", "========================================================스테이터스코드 받음");
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                reader.close();
+                return sb.toString();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            if (s == null) {
+                // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
+                Log.d("json1", "========================================================null");
+                Toast.makeText(getApplicationContext(), "정보가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+
+            } else {
+                try {
+                    // 수신한 data s에 대해
+                    JSONObject jsonObject = new JSONObject(s);
+                    if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
+                        // 데이터들을 추출하여 변수에 저장한다.
+                        JSONObject resultObject = jsonObject.getJSONObject("result");
+
+                        String verySuitable = resultObject.getString("매우 적합");
+                        String suitable = resultObject.getString("적합");
+                        Log.d("json1", "========================================================변수저장");
+                        Log.d("json1", verySuitable);
+                        Log.d("json1", suitable);
+
+                        Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);
+                        intent.putExtra("verySuitable", verySuitable);
+                        intent.putExtra("suitable", suitable);
+                        intent.putExtra("type", "3");
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("userEmail", userEmail);
+                        intent.putExtra("userType", userType);
+                        intent.putExtra("userPk", userPk);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (JSONException e) {
+                    Log.d("json1", e.getMessage());
+                }
+            }
         }
     }
 }

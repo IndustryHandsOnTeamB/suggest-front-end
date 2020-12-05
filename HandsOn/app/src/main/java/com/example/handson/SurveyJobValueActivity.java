@@ -45,8 +45,7 @@ public class SurveyJobValueActivity extends AppCompatActivity {
     int totalPageNumber;
     int currentPageNumber = 1;
     int currentQuestionNumber;
-
-
+    String userId, userName, userEmail,userType;
 
 
     @Override
@@ -62,6 +61,12 @@ public class SurveyJobValueActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
         String questionJson = getIntent.getStringExtra("jsonResult");
+
+        userId = getIntent.getStringExtra("userId");
+        userName = getIntent.getStringExtra("userName");
+        userEmail = getIntent.getStringExtra("userEmail");
+        userType = getIntent.getStringExtra("userType");
+        userPk = getIntent.getIntExtra("userPk", 4444);
 
         try {
             JSONArray questionArray = new JSONArray(questionJson);
@@ -378,6 +383,11 @@ public class SurveyJobValueActivity extends AppCompatActivity {
                         intent.putExtra("topTwoVal", finaltopTwoVal);
                         intent.putExtra("suitableJobs", finalsuitableJobs);
                         intent.putExtra("type", "2");
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("userEmail", userEmail);
+                        intent.putExtra("userType", userType);
+                        intent.putExtra("userPk", userPk);
                         startActivity(intent);
                         finish();
                     }

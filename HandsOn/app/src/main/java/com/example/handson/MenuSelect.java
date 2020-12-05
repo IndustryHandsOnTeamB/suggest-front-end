@@ -28,10 +28,10 @@ public class MenuSelect extends AppCompatActivity {
         userName = intent.getStringExtra("userName");
         userEmail = intent.getStringExtra("userEmail");
         userType = intent.getStringExtra("userType");
-        userPk = intent.getIntExtra("userPk",4444);
+        userPk = intent.getIntExtra("userPk", 4444);
 
-        lastResultButton = (Button)findViewById(R.id.last_result_button);
-        mbtiButton = (Button)findViewById(R.id.mbti_button);
+        lastResultButton = (Button) findViewById(R.id.last_result_button);
+        mbtiButton = (Button) findViewById(R.id.mbti_button);
         testStartButton = (Button) findViewById(R.id.test_start_button);
 
         lastResultButton.setOnClickListener(new View.OnClickListener() {

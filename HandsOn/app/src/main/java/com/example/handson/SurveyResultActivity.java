@@ -20,6 +20,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.example.handson.MenuSelect.userPk;
+import static com.example.handson.PastResultActivity.pastResultActivity;
 public class SurveyResultActivity extends AppCompatActivity {
 
     Button moveMainMenuButton;
@@ -32,6 +34,8 @@ public class SurveyResultActivity extends AppCompatActivity {
     MbtiListViewAdapter mbtiListViewAdapter;
     String mbtiRecommendText = "";
     String mbtiTitleText = "";
+
+    String userId, userName, userEmail, userType;
 
     /*
     설문 진행 후 결과창으로 넘어올 때 설문 타입을 넘겨받음
@@ -57,6 +61,12 @@ public class SurveyResultActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         surveyType = Integer.parseInt(intent.getStringExtra("type"));
+
+        userId = intent.getStringExtra("userId");
+        userName = intent.getStringExtra("userName");
+        userEmail = intent.getStringExtra("userEmail");
+        userType = intent.getStringExtra("userType");
+        userPk = intent.getIntExtra("userPk", 4444);
 
         switch (surveyType){
             case 0:
@@ -97,7 +107,17 @@ public class SurveyResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SurveyResultActivity.this, MenuSelect.class);
+                intent.putExtra("userId", userId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("userType", userType);
+                intent.putExtra("userPk", userPk);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if(pastResultActivity !=null) {
+                    pastResultActivity.finish();
+                }
                 startActivity(intent);
+                finish();
             }
         });
     }

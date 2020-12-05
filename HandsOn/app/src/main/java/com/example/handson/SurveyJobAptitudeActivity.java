@@ -42,6 +42,7 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
     int totalPageNumber;
     int currentPageNumber = 1;
     int currentQuestionNumber;
+    String userId, userName, userEmail;
 
     Intent intent = new Intent(SurveyJobAptitudeActivity.this, SurveyResultActivity.class);
 
@@ -61,6 +62,12 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
 
         Intent getIntent = getIntent();
         String questionJson = getIntent.getStringExtra("jsonResult");
+
+        userId = getIntent.getStringExtra("userId");
+        userName = getIntent.getStringExtra("userName");
+        userEmail = getIntent.getStringExtra("userEmail");
+        userType = getIntent.getStringExtra("userType");
+        userPk = getIntent.getIntExtra("userPk", 4444);
 
         try {
             JSONArray questionArray = new JSONArray(questionJson);
@@ -385,6 +392,11 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
                         intent.putExtra("topAbility", finalAbilityString);
                         intent.putExtra("topJobs", finalJobString);
                         intent.putExtra("type", "1");
+                        intent.putExtra("userId", userId);
+                        intent.putExtra("userName", userName);
+                        intent.putExtra("userEmail", userEmail);
+                        intent.putExtra("userType", userType);
+                        intent.putExtra("userPk", userPk);
                         startActivity(intent);
                         finish();
                     }
