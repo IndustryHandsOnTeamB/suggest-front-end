@@ -66,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:layout_marginBottom="230dp"
+        android:layout_marginBottom="350dp"
         android:hint="비밀번호 확인"
         android:fontFamily="@font/nanumsquare_acb"
         android:inputType="textPassword"

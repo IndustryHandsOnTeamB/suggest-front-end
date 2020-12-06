@@ -347,7 +347,6 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
                         // 데이터들을 추출하여 변수에 저장한다.
 
                         String resultString = jsonObject.get("result").toString();
-                        Log.d("HS", "onPostExecute: RESULT STRING ======" + resultString);
                         resultString = resultString.substring(1, resultString.length()-1); // 앞뒤 { } 제거
                         String result2 = resultString;
 
@@ -356,31 +355,20 @@ public class SurveyJobAptitudeActivity extends AppCompatActivity {
 
                         String[] mTopAbilityArray = topAbilityArray;
                         mTopAbilityArray[0] = topAbilityArray[0].split(":")[0].replace("\"","");
-                        Log.d("HS", "onPostExecute: RESULT STRING ======" + mTopAbilityArray[0]);
                         String job1 = topJobsArray[0].split(":")[1].substring(1);
-                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[0].split(":")[1].substring(1));
-
-
                         topAbilityArray[1] = topAbilityArray[1].split(":")[0].replace("\"","");
-                        Log.d("HS", "onPostExecute: RESULT STRING ======" + topAbilityArray[1]);
                         String job2 = topJobsArray[1].split(":")[1].substring(1);
-                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[1].split(":")[1].substring(1));
-
-                        //topJobsArray[1] =  result2.split("\\],\"")[1].split(":")[1].replace("\"","");
-                        //Log.d("HS", "JOB STRING ======" + topJobsArray[1]);
-
                         topAbilityArray[2] = topAbilityArray[2].split(":")[0].replace("\"","");
-                        Log.d("HS", "onPostExecute: RESULT STRING ======" + topAbilityArray[2]);
                         String job3 = topJobsArray[2].split(":")[1].substring(1);
-                        Log.d("HS", "onPostExecute: RESULT STRING 가공======" + topJobsArray[2].split(":")[1].substring(1));
 
                         String finalAbilityString = mTopAbilityArray[0] + " / " + mTopAbilityArray[1] + " / " + mTopAbilityArray[2];
                         String finalJobString = job1 + "," + job2 + "," + job3;
-                        finalJobString = finalJobString.substring(0,finalJobString.length()-1).replace("\""," ");
-                        Log.d("HS", "onPostExecute: FINAL===> " + finalAbilityString);
-                        Log.d("HS", "onPostExecute: FINAL===> " + finalJobString);
+                        finalJobString = finalJobString.substring(0,finalJobString.length()-1).replace("\"","");
+                        finalJobString = finalJobString.replace(",",", ");
 
                         Intent intent = new Intent(SurveyJobAptitudeActivity.this, SurveyResultActivity.class);
+
+
                         intent.putExtra("topAbility", finalAbilityString);
                         intent.putExtra("topJobs", finalJobString);
                         intent.putExtra("type", "1");

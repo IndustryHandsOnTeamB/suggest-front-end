@@ -332,7 +332,8 @@ public class PastResultActivity extends AppCompatActivity {
 
                         String finalAbilityString = mTopAbilityArray[0] + " / " + mTopAbilityArray[1] + " / " + mTopAbilityArray[2];
                         String finalJobString = job1 + "," + job2 + "," + job3;
-                        finalJobString = finalJobString.substring(0,finalJobString.length()-1).replace("\""," ");
+                        finalJobString = finalJobString.substring(0,finalJobString.length()-1).replace("\"","");
+                        finalJobString = finalJobString.replace(",",", ");
                         Log.d("HS", "onPostExecute: FINAL===> " + finalAbilityString);
                         Log.d("HS", "onPostExecute: FINAL===> " + finalJobString);
 
@@ -585,7 +586,6 @@ public class PastResultActivity extends AppCompatActivity {
 
             if (s == null) {
                 // 서버에서 널 값이 온경우. API가 이상하거나. 서버가 꺼져있는 경우
-                Log.d("json1", "========================================================null");
                 Toast.makeText(getApplicationContext(), "정보가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
 
             } else {
@@ -596,29 +596,28 @@ public class PastResultActivity extends AppCompatActivity {
                         // 데이터들을 추출하여 변수에 저장한다.
 
                         JSONObject resultObject= jsonObject.getJSONObject("result");
-                        Log.d("HS", "========##########=========== result받음");
                         String topTwoVal = resultObject.getString("value");
-                        Log.d("HS", "========##########=========== top Two 받음");
-                        String finaltopTwoVal = topTwoVal.substring(1, topTwoVal.length()-1);
-                        finaltopTwoVal = finaltopTwoVal.replace("\"","");
-                        finaltopTwoVal = finaltopTwoVal.replace(",",", ");
 
+                        String finaltopTwoVal = topTwoVal.substring(1, topTwoVal.length()-1);
+                        finaltopTwoVal = finaltopTwoVal.replace("\"","").replace(",",", ");
 
                         String suitableJobs = resultObject.getString("jobs");
                         String finalsuitableJobs = suitableJobs.substring(9);
-                        finalsuitableJobs = finalsuitableJobs.split("]")[0];
-                        finalsuitableJobs = finalsuitableJobs.replace("\"","");
-                        finalsuitableJobs = finalsuitableJobs.replace(",",", ");
+                        finalsuitableJobs = finalsuitableJobs.split("]")[0].replace("\"","");;
 
-
-                        Log.d("HS", "=============================================##########=========== 결과변수 변수저장");
-                        Log.d("HS - final topTwoval is ", finaltopTwoVal);
-                        Log.d("HS- suitable jobs are ", finalsuitableJobs);
-
+                        String[] topSuitableJobs =finalsuitableJobs.split(",");
+                        String topFinalSuitableJob = new String();
+                        for(int i=0;i<20;i++){
+                            if(i == 19){
+                                topFinalSuitableJob = topFinalSuitableJob + topSuitableJobs[i];
+                                break;
+                            }
+                            topFinalSuitableJob = topFinalSuitableJob + topSuitableJobs[i] +", ";
+                        }
 
                         Intent intent = new Intent(PastResultActivity.this, SurveyResultActivity.class);
                         intent.putExtra("topTwoVal", finaltopTwoVal);
-                        intent.putExtra("suitableJobs", finalsuitableJobs);
+                        intent.putExtra("suitableJobs", topFinalSuitableJob);
                         intent.putExtra("type", "2");
                         intent.putExtra("userId", userId);
                         intent.putExtra("userName", userName);
